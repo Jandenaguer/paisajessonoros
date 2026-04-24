@@ -4,10 +4,7 @@ const audioFiles = [
     'mensaje1_nature_equal_hrtf.wav', 'mensaje1_nature_low_hrtf.wav', 'mensaje1_nature_high_hrtf.wav',
     'mensaje2_road_equal_hrtf.wav', 'mensaje2_road_low_hrtf.wav', 'mensaje2_road_high_hrtf.wav',
     'mensaje2_voices_equal_hrtf.wav', 'mensaje2_voices_low_hrtf.wav', 'mensaje2_voices_high_hrtf.wav',
-    'mensaje2_nature_equal_hrtf.wav', 'mensaje2_nature_low_hrtf.wav', 'mensaje2_nature_high_hrtf.wav',
-    'mensaje3_road_equal_hrtf.wav', 'mensaje3_road_low_hrtf.wav', 'mensaje3_road_high_hrtf.wav',
-    'mensaje3_voices_equal_hrtf.wav', 'mensaje3_voices_low_hrtf.wav', 'mensaje3_voices_high_hrtf.wav',
-    'mensaje3_nature_equal_hrtf.wav', 'mensaje3_nature_low_hrtf.wav', 'mensaje3_nature_high_hrtf.wav'
+    'mensaje2_nature_equal_hrtf.wav', 'mensaje2_nature_low_hrtf.wav', 'mensaje2_nature_high_hrtf.wav'
 ];
 
 let currentAudioIndex = 0;
@@ -18,6 +15,19 @@ function initializeQuiz() {
     currentAudioIndex = 0;
     allResponses = [];
     loadAudio(currentAudioIndex);
+}
+
+function toggleReference(type) {
+    const div = document.getElementById(`support_${type}`);
+    const arrow = document.getElementById(`arrow_${type}`);
+    
+    if (div.style.display === 'none') {
+        div.style.display = 'block';
+        arrow.src = './styles/images/up-arrow.png';
+    } else {
+        div.style.display = 'none';
+        arrow.src = './styles/images/down-arrow.png';
+    }
 }
 
 function parseAudioFilename(filename) {

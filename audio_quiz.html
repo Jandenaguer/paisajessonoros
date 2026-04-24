@@ -128,7 +128,7 @@
     <div class="wrapper" id="screen-audio" style="display: none;">
         <table>
             <caption>
-                <h2>Audio <span id="audio-counter">1</span> de 27</h2>
+                <h2>Audio <span id="audio-counter">1</span> de 18</h2>
             </caption>
             <tbody>
                 <tr>
@@ -139,6 +139,54 @@
                                 <source id="audio-source" src="" type="audio/wav">
                             </audio>
                             <p><small id="audio-info"></small></p>
+                        </div>
+                        <div id="reference-audios" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 5px;">
+                            <h4>Audios de Referencia</h4>
+                            <p><small>Haga clic para expandir y escuchar ejemplos de referencia</small></p>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div onclick="toggleReference('pleasant')" style="cursor: pointer; padding: 5px;">
+                                            <b>Agradable</b> <img id="arrow_pleasant" src="./styles/images/down-arrow.png" style="width: 12px;">
+                                        </div>
+                                        <div id="support_pleasant" style="display: none;">
+                                            <audio id="audio_support_pleasant" controls style="width: 150px;">
+                                                <source src="./resources/examples/Pleasant/Agradable.wav" type="audio/wav">
+                                            </audio>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div onclick="toggleReference('uneventful')" style="cursor: pointer; padding: 5px;">
+                                            <b>Estático</b> <img id="arrow_uneventful" src="./styles/images/down-arrow.png" style="width: 12px;">
+                                        </div>
+                                        <div id="support_uneventful" style="display: none;">
+                                            <audio id="audio_support_uneventful" controls style="width: 150px;">
+                                                <source src="./resources/examples/Uneventful/No_definido.wav" type="audio/wav">
+                                            </audio>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div onclick="toggleReference('annoying')" style="cursor: pointer; padding: 5px;">
+                                            <b>Molesto</b> <img id="arrow_annoying" src="./styles/images/down-arrow.png" style="width: 12px;">
+                                        </div>
+                                        <div id="support_annoying" style="display: none;">
+                                            <audio id="audio_support_annoying" controls style="width: 150px;">
+                                                <source src="./resources/examples/Annoying/Molesto.wav" type="audio/wav">
+                                            </audio>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div onclick="toggleReference('eventful')" style="cursor: pointer; padding: 5px;">
+                                            <b>Dinámico</b> <img id="arrow_eventful" src="./styles/images/down-arrow.png" style="width: 12px;">
+                                        </div>
+                                        <div id="support_eventful" style="display: none;">
+                                            <audio id="audio_support_eventful" controls style="width: 150px;">
+                                                <source src="./resources/examples/Eventful/Eventful.wav" type="audio/wav">
+                                            </audio>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </td>
                 </tr>
