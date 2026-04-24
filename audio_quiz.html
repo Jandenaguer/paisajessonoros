@@ -33,6 +33,15 @@
             <tbody>
                 <tr>
                     <td>
+                        <div style="padding: 10px; border: 1px solid #ccc; margin-bottom: 15px; background-color: rgba(255,255,255,0.1);">
+                            <h4><strong>Archivo de datos existente</strong></h4>
+                            <p><small>Si ya tienes un CSV con datos previos, selecciónalo para añadir las nuevas respuestas al mismo archivo:</small></p>
+                            <input type="file" id="csv-file-input" accept=".csv" style="color: white;">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         <div id="wrapper_instructions" style="width:fit-content;">
                             <h3><strong>Instrucciones</strong></h3>
                             <h4>• Estar en un ambiente tranquilo durante el experimento.</h4>
@@ -140,127 +149,166 @@
                             </audio>
                             <p><small id="audio-info"></small></p>
                         </div>
-                        <div id="reference-audios" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 5px;">
-                            <h4>Audios de Referencia</h4>
-                            <table>
-                                <tr>
-                                    <td style="padding: 10px; text-align: center;">
-                                        <b>Agradable</b><br>
-                                        <audio id="audio_support_pleasant" controls style="width: 150px;">
-                                            <source src="./resources/examples/Pleasant/Agradable.wav" type="audio/wav">
-                                        </audio>
-                                    </td>
-                                    <td style="padding: 10px; text-align: center;">
-                                        <b>Estático</b><br>
-                                        <audio id="audio_support_uneventful" controls style="width: 150px;">
-                                            <source src="./resources/examples/Uneventful/No_definido.wav" type="audio/wav">
-                                        </audio>
-                                    </td>
-                                    <td style="padding: 10px; text-align: center;">
-                                        <b>Molesto</b><br>
-                                        <audio id="audio_support_annoying" controls style="width: 150px;">
-                                            <source src="./resources/examples/Annoying/Molesto.wav" type="audio/wav">
-                                        </audio>
-                                    </td>
-                                    <td style="padding: 10px; text-align: center;">
-                                        <b>Dinámico</b><br>
-                                        <audio id="audio_support_eventful" controls style="width: 150px;">
-                                            <source src="./resources/examples/Eventful/Eventful.wav" type="audio/wav">
-                                        </audio>
-                                    </td>
-                                </tr>
-                            </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div style="background-color: rgba(52, 152, 219, 0.2); padding: 15px; border: 2px solid #3498db; border-radius: 5px; margin-bottom: 20px;">
+                            <h3 style="color: #3498db;">SECCIÓN 1: MOLESTIA</h3>
+                            <div style="margin-top: 10px;">
+                                <h4>Audio de referencia de molestia:</h4>
+                                <audio id="audio_ref_molestia" controls style="width: 200px;">
+                                    <source id="audio_ref_molestia_source" src="" type="audio/wav">
+                                </audio>
+                                <p><small>(Pendiente de determinar)</small></p>
+                            </div>
+                            <h3 style="margin-top: 15px;">6. ¿Cuánto le molesta o perturba este sonido?</h3>
+                            <div id="molestia-scale">
+                                <table>
+                                    <tr>
+                                        <td><input type="radio" name="molestia" value="0"> 0</td>
+                                        <td><input type="radio" name="molestia" value="1"> 1</td>
+                                        <td><input type="radio" name="molestia" value="2"> 2</td>
+                                        <td><input type="radio" name="molestia" value="3"> 3</td>
+                                        <td><input type="radio" name="molestia" value="4"> 4</td>
+                                        <td><input type="radio" name="molestia" value="5"> 5</td>
+                                        <td><input type="radio" name="molestia" value="6"> 6</td>
+                                        <td><input type="radio" name="molestia" value="7"> 7</td>
+                                        <td><input type="radio" name="molestia" value="8"> 8</td>
+                                        <td><input type="radio" name="molestia" value="9"> 9</td>
+                                        <td><input type="radio" name="molestia" value="10"> 10</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="11" style="text-align: left; font-size: 0.8em;">
+                                            0 = No me molesta en absoluto | 10 = Extremadamente molesto
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <h3>6. ¿Cuánto le molesta o perturba este sonido?</h3>
-                        <div id="molestia-scale">
-                            <table>
+                        <div style="background-color: rgba(46, 204, 113, 0.2); padding: 15px; border: 2px solid #2ecc71; border-radius: 5px;">
+                            <h3 style="color: #2ecc71;">SECCIÓN 2: PERCEPCIÓN AFECTIVA (PAC)</h3>
+                            <div id="reference-audios" style="margin-top: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                                <h4>Audios de Referencia</h4>
+                                <table>
+                                    <tr>
+                                        <td style="padding: 10px; text-align: center;">
+                                            <b>Agradable</b><br>
+                                            <audio id="audio_support_pleasant" controls style="width: 150px;">
+                                                <source src="./resources/examples/Pleasant/Agradable.wav" type="audio/wav">
+                                            </audio>
+                                        </td>
+                                        <td style="padding: 10px; text-align: center;">
+                                            <b>Estático</b><br>
+                                            <audio id="audio_support_uneventful" controls style="width: 150px;">
+                                                <source src="./resources/examples/Uneventful/No_definido.wav" type="audio/wav">
+                                            </audio>
+                                        </td>
+                                        <td style="padding: 10px; text-align: center;">
+                                            <b>Molesto</b><br>
+                                            <audio id="audio_support_annoying" controls style="width: 150px;">
+                                                <source src="./resources/examples/Annoying/Molesto.wav" type="audio/wav">
+                                            </audio>
+                                        </td>
+                                        <td style="padding: 10px; text-align: center;">
+                                            <b>Dinámico</b><br>
+                                            <audio id="audio_support_eventful" controls style="width: 150px;">
+                                                <source src="./resources/examples/Eventful/Eventful.wav" type="audio/wav">
+                                            </audio>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <h3 style="margin-top: 15px;">8. ¿Qué fuentes sonoras detecta en el sonido presentado?</h3>
+                            <small>(Seleccione todas las que aplique)</small><br>
+                            <input type="checkbox" name="fuentes" value="trafico"> Tráfico motorizado (coches, motos, aviones, etc.)<br>
+                            <input type="checkbox" name="fuentes" value="humano"> Sonidos humanos (voces, risas, pasos)<br>
+                            <input type="checkbox" name="fuentes" value="natural"> Sonidos naturales (pájaros, agua, viento en las hojas)<br>
+                            <h3 style="margin-top: 15px;">9. ¿En qué medida está de acuerdo o en desacuerdo con que este entorno sonoro es...</h3>
+                            <table class="default">
                                 <tr>
-                                    <td><input type="radio" name="molestia" value="0"> 0</td>
-                                    <td><input type="radio" name="molestia" value="1"> 1</td>
-                                    <td><input type="radio" name="molestia" value="2"> 2</td>
-                                    <td><input type="radio" name="molestia" value="3"> 3</td>
-                                    <td><input type="radio" name="molestia" value="4"> 4</td>
-                                    <td><input type="radio" name="molestia" value="5"> 5</td>
-                                    <td><input type="radio" name="molestia" value="6"> 6</td>
-                                    <td><input type="radio" name="molestia" value="7"> 7</td>
-                                    <td><input type="radio" name="molestia" value="8"> 8</td>
-                                    <td><input type="radio" name="molestia" value="9"> 9</td>
-                                    <td><input type="radio" name="molestia" value="10"> 10</td>
+                                    <th></th>
+                                    <th>1</th>
+                                    <th>2</th>
+                                    <th>3</th>
+                                    <th>4</th>
+                                    <th>5</th>
                                 </tr>
                                 <tr>
-                                    <td colspan="11" style="text-align: left; font-size: 0.8em;">
-                                        0 = No me molesta en absoluto | 10 = Extremadamente molesto
+                                    <th>Agradable</th>
+                                    <td><input type="radio" name="afectiva_agradable" value="1"></td>
+                                    <td><input type="radio" name="afectiva_agradable" value="2"></td>
+                                    <td><input type="radio" name="afectiva_agradable" value="3"></td>
+                                    <td><input type="radio" name="afectiva_agradable" value="4"></td>
+                                    <td><input type="radio" name="afectiva_agradable" value="5"></td>
+                                </tr>
+                                <tr>
+                                    <th>Caótico</th>
+                                    <td><input type="radio" name="afectiva_caotico" value="1"></td>
+                                    <td><input type="radio" name="afectiva_caotico" value="2"></td>
+                                    <td><input type="radio" name="afectiva_caotico" value="3"></td>
+                                    <td><input type="radio" name="afectiva_caotico" value="4"></td>
+                                    <td><input type="radio" name="afectiva_caotico" value="5"></td>
+                                </tr>
+                                <tr>
+                                    <th>Estimulante</th>
+                                    <td><input type="radio" name="afectiva_estimulante" value="1"></td>
+                                    <td><input type="radio" name="afectiva_estimulante" value="2"></td>
+                                    <td><input type="radio" name="afectiva_estimulante" value="3"></td>
+                                    <td><input type="radio" name="afectiva_estimulante" value="4"></td>
+                                    <td><input type="radio" name="afectiva_estimulante" value="5"></td>
+                                </tr>
+                                <tr>
+                                    <th>Sin actividad</th>
+                                    <td><input type="radio" name="afectiva_sinactividad" value="1"></td>
+                                    <td><input type="radio" name="afectiva_sinactividad" value="2"></td>
+                                    <td><input type="radio" name="afectiva_sinactividad" value="3"></td>
+                                    <td><input type="radio" name="afectiva_sinactividad" value="4"></td>
+                                    <td><input type="radio" name="afectiva_sinactividad" value="5"></td>
+                                </tr>
+                                <tr>
+                                    <th>Calmado</th>
+                                    <td><input type="radio" name="afectiva_calmado" value="1"></td>
+                                    <td><input type="radio" name="afectiva_calmado" value="2"></td>
+                                    <td><input type="radio" name="afectiva_calmado" value="3"></td>
+                                    <td><input type="radio" name="afectiva_calmado" value="4"></td>
+                                    <td><input type="radio" name="afectiva_calmado" value="5"></td>
+                                </tr>
+                                <tr>
+                                    <th>Molesto</th>
+                                    <td><input type="radio" name="afectiva_molesto" value="1"></td>
+                                    <td><input type="radio" name="afectiva_molesto" value="2"></td>
+                                    <td><input type="radio" name="afectiva_molesto" value="3"></td>
+                                    <td><input type="radio" name="afectiva_molesto" value="4"></td>
+                                    <td><input type="radio" name="afectiva_molesto" value="5"></td>
+                                </tr>
+                                <tr>
+                                    <th>Con actividad</th>
+                                    <td><input type="radio" name="afectiva_conactividad" value="1"></td>
+                                    <td><input type="radio" name="afectiva_conactividad" value="2"></td>
+                                    <td><input type="radio" name="afectiva_conactividad" value="3"></td>
+                                    <td><input type="radio" name="afectiva_conactividad" value="4"></td>
+                                    <td><input type="radio" name="afectiva_conactividad" value="5"></td>
+                                </tr>
+                                <tr>
+                                    <th>Monótono</th>
+                                    <td><input type="radio" name="afectiva_monotono" value="1"></td>
+                                    <td><input type="radio" name="afectiva_monotono" value="2"></td>
+                                    <td><input type="radio" name="afectiva_monotono" value="3"></td>
+                                    <td><input type="radio" name="afectiva_monotono" value="4"></td>
+                                    <td><input type="radio" name="afectiva_monotono" value="5"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" style="text-align: left; font-size: 0.8em;">
+                                        1 = Completamente en desacuerdo | 3 = Ni de acuerdo, ni en desacuerdo | 5 = Completamente de acuerdo
                                     </td>
                                 </tr>
                             </table>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <h3>8. ¿Qué fuentes sonoras detecta en el sonido presentado?</h3>
-                        <small>(Seleccione todas las que aplique)</small><br>
-                        <input type="checkbox" name="fuentes" value="trafico"> Tráfico motorizado (coches, motos, aviones, etc.)<br>
-                        <input type="checkbox" name="fuentes" value="humano"> Sonidos humanos (voces, risas, pasos)<br>
-                        <input type="checkbox" name="fuentes" value="natural"> Sonidos naturales (pájaros, agua, viento en las hojas)<br>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <h3>9. ¿En qué medida está de acuerdo o en desacuerdo con que este entorno sonoro es...</h3>
-                        <table class="default">
-                            <tr>
-                                <th></th>
-                                <th>1</th>
-                                <th>2</th>
-                                <th>3</th>
-                                <th>4</th>
-                            </tr>
-                            <tr>
-                                <th>Agradable</th>
-                                <td><input type="radio" name="afectiva_agradable" value="1"></td>
-                                <td><input type="radio" name="afectiva_agradable" value="2"></td>
-                                <td><input type="radio" name="afectiva_agradable" value="3"></td>
-                                <td><input type="radio" name="afectiva_agradable" value="4"></td>
-                            </tr>
-                            <tr>
-                                <th>Caótico</th>
-                                <td><input type="radio" name="afectiva_caotico" value="1"></td>
-                                <td><input type="radio" name="afectiva_caotico" value="2"></td>
-                                <td><input type="radio" name="afectiva_caotico" value="3"></td>
-                                <td><input type="radio" name="afectiva_caotico" value="4"></td>
-                            </tr>
-                            <tr>
-                                <th>Estimulante</th>
-                                <td><input type="radio" name="afectiva_estimulante" value="1"></td>
-                                <td><input type="radio" name="afectiva_estimulante" value="2"></td>
-                                <td><input type="radio" name="afectiva_estimulante" value="3"></td>
-                                <td><input type="radio" name="afectiva_estimulante" value="4"></td>
-                            </tr>
-                            <tr>
-                                <th>Sin actividad</th>
-                                <td><input type="radio" name="afectiva_sinactividad" value="1"></td>
-                                <td><input type="radio" name="afectiva_sinactividad" value="2"></td>
-                                <td><input type="radio" name="afectiva_sinactividad" value="3"></td>
-                                <td><input type="radio" name="afectiva_sinactividad" value="4"></td>
-                            </tr>
-                            <tr>
-                                <th>Calmado</th>
-                                <td><input type="radio" name="afectiva_calmado" value="1"></td>
-                                <td><input type="radio" name="afectiva_calmado" value="2"></td>
-                                <td><input type="radio" name="afectiva_calmado" value="3"></td>
-                                <td><input type="radio" name="afectiva_calmado" value="4"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="5" style="text-align: left; font-size: 0.8em;">
-                                    1 = Completamente en desacuerdo | 4 = Completamente de acuerdo
-                                </td>
-                            </tr>
-                        </table>
                     </td>
                 </tr>
                 <tr>

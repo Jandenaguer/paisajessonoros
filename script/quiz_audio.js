@@ -97,7 +97,7 @@ function submitAudioResponse() {
     }
     
     const afectivas = {};
-    const afectivaKeys = ['agradable', 'caotico', 'estimulante', 'sinactividad', 'calmado'];
+    const afectivaKeys = ['agradable', 'caotico', 'estimulante', 'sinactividad', 'calmado', 'molesto', 'conactividad', 'monotono'];
     let allAfectivasOK = true;
     
     for (let key of afectivaKeys) {
@@ -129,7 +129,10 @@ function submitAudioResponse() {
         afectiva_caotico: afectivas.caotico,
         afectiva_estimulante: afectivas.estimulante,
         afectiva_sinactividad: afectivas.sinactividad,
-        afectiva_calmado: afectivas.calmado
+        afectiva_calmado: afectivas.calmado,
+        afectiva_molesto: afectivas.molesto,
+        afectiva_conactividad: afectivas.conactividad,
+        afectiva_monotono: afectivas.monotono
     };
     
     allResponses.push(response);
@@ -153,18 +156,66 @@ function completeQuiz() {
 
 function saveToCSV() {
     const headers = [
-        'timestamp_inicio', 'timestamp_respuesta', 'timestamp_fin',
+        'participante_id', 'timestamp_inicio', 'timestamp_respuesta', 'timestamp_fin',
         'edad', 'genero', 'estudios', 'audicion', 'castellano',
         'audio_index', 'audio_filename', 'mensaje', 'ruido', 'nivel',
         'molestia', 'fuentes',
         'afectiva_agradable', 'afectiva_caotico', 'afectiva_estimulante', 
-        'afectiva_sinactividad', 'afectiva_calmado'
+        'afectiva_sinactividad', 'afectiva_calmado', 'afectiva_molesto',
+        'afectiva_conactividad', 'afectiva_monotono'
     ];
     
-    let csvContent = headers.join(',') + '\n';
+    let existingData = [];
+    let csvContent = '';
+    let participantId = generateParticipantId();
+    
+    const csvFile = document.getElementById('csv-file-input');
+    
+    if (csvFile.files.length > 0) {
+        const file = csvFile.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const content = e.target.result;
+            const lines = content.split('\n');
+            
+            if (lines.length > 1) {
+                csvContent = content;
+                const lastParticipantId = findLastParticipantId(content);
+                if (lastParticipantId) {
+                    participantId = lastParticipantId + 1;
+                }
+            } else {
+                csvContent = headers.join(',') + '\n';
+            }
+            
+            appendNewResponses(csvContent, participantId);
+        };
+        reader.readAsText(file);
+    } else {
+        csvContent = headers.join(',') + '\n';
+        appendNewResponses(csvContent, participantId);
+    }
+}
+
+function generateParticipantId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+function findLastParticipantId(content) {
+    const lines = content.trim().split('\n');
+    if (lines.length < 2) return null;
+    const lastLine = lines[lines.length - 1];
+    const firstCell = lastLine.split(',')[0];
+    const num = parseInt(firstCell);
+    return isNaN(num) ? null : num;
+}
+
+function appendNewResponses(existingCsv, participantId) {
+    let newRows = '';
     
     for (let response of allResponses) {
         const row = [
+            participantId,
             demographicData.timestamp_inicio,
             response.timestamp_respuesta,
             quizCompleteTimestamp,
@@ -184,22 +235,28 @@ function saveToCSV() {
             response.afectiva_caotico,
             response.afectiva_estimulante,
             response.afectiva_sinactividad,
-            response.afectiva_calmado
+            response.afectiva_calmado,
+            response.afectiva_molesto,
+            response.afectiva_conactividad,
+            response.afectiva_monotono
         ];
-        csvContent += row.join(',') + '\n';
+        newRows += row.join(',') + '\n';
     }
     
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const finalCsv = existingCsv.trim() + '\n' + newRows.trim();
+    
+    const blob = new Blob([finalCsv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     link.href = URL.createObjectURL(blob);
-    link.download = `paisajes_sonoros_${timestamp}.csv`;
+    link.download = `paisajes_sonoros_completo_${timestamp}.csv`;
     link.click();
     
     localStorage.setItem('lastQuizTimestamp', quizCompleteTimestamp);
     localStorage.setItem('lastQuizData', JSON.stringify({
         demographic: demographicData,
         responses: allResponses,
-        completeTimestamp: quizCompleteTimestamp
+        completeTimestamp: quizCompleteTimestamp,
+        participantId: participantId
     }));
 }
