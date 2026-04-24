@@ -1,71 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Hoja de estilo de la interfaz -->
     <link rel="stylesheet" href="./styles/style.css">
     <link rel="stylesheet" href="./styles/style_quiz.css">
     <link rel="stylesheet" href="./styles/style_nav.css">
-
-    <!-- Cargar el proceso asociado a esta página -->
-    <script src="./script/content.js" defer></script>
-    <script src="./script/start_quiz.js" defer></script>
     <link rel="shortcut icon" href="./styles/images/logo3.ico">
-    <title>Paisajes Sonoros Cuestionario</title>
+    <title>Paisajes Sonoros - Cuestionario</title>
 </head>
 
 <body>
-  <nav class="nav container" style="height: 50px;">
-    <span class="nav__logo">
-        <img style="height: 30px;" src="./styles/images/logo_urjc.png" alt="URJC LOGO">
-    </span>
-    <ul class="nav__list">
-
-      <li class="nav__item">
-        <a href="index.html" class="nav__link"><b>Inicio</b></a>
-      </li>    
-      <li class="nav__item">
-        <a href="resultados.html" class="nav__link" ><b>Resultados</b></a>
-      </li>
-      <li class="nav__item">
-        <a href="comparation.html" class="nav__link"><b>Comparar Resultados</b></a>
-      </li>
-      <li class="nav__item">
-        <a href="comparation-cities.html" class="nav__link"><b>Comparar Ciudades</b></a>
-      </li>
-      <li class="nav__item">
-        <a href="comparation-visual.html" class="nav__link"><b>Influencia Apoyo Visual</b></a>
-      </li>   
-      <li class="nav__item">
-        <a href="converter.html" class="nav__link" >Convertidor</a>
-      </li>
-      <li class="nav__item">
-        <a href="#" class="nav__link" ></a>
-      </li>
-    </ul>
-  </nav>
-  <div id="wrapper1" style="display: flex;flex-direction: row;">
-    <span>
-      <a href="audio_quiz.html"><button id="btn_quiz" style="min-width: fit-content;width:5vmax; margin-right: 5vmax;font-size: 1vmax;">Cuestionario&nbsp;con&nbsp;Solo&nbsp;Audio</button></a>
-    </span>
-      
-      &nbsp;
-      <span>
-        <a href="video_quiz.html"><button id="btn_quiz" style="min-width: fit-content;width:5vmax; margin-left: 5vmax;font-size: 1vmax;">Cuestionario&nbsp;con&nbsp;Apoyo&nbsp;Visual</button></a>
-      </span>
-      <span style="display: none;">
-        <a href="read_file.html"><button id="btn_quiz" style="min-width: fit-content;width:5vmax; margin-left: 5vmax;font-size: 1vmax;">Mostrar&nbsp;Resultados&nbsp;Finales</button></a>
-      </span>
-
-  </div>
-  <div id="wrapper2">
-
-  </div>
-  <div id="wrapper3">
-
-  </div>
+    <nav class="nav container" style="height: 50px;">
+        <span class="nav__logo">
+            <img style="height: 30px;" src="./styles/images/logo_urjc.png" alt="URJC LOGO">
+        </span>
+        <ul class="nav__list">
+            <li class="nav__item">
+                <a href="audio_quiz.html" class="nav__link"><b>Comenzar Cuestionario</b></a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="wrapper" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh;">
+        <div style="text-align: center; max-width: 600px;">
+            <h1>Estudio de Paisajes Sonoros</h1>
+            <p>Bienvenido al cuestionario de investigación sobre percepción de paisajes sonoros.</p>
+            <p>Este estudio forma parte de un Trabajo de Fin de Grado de la Universidad Rey Juan Carlos.</p>
+            <br>
+            <a href="audio_quiz.html"><button id="btn_quiz" style="min-width: fit-content; width: 5vmax; font-size: 1vmax; padding: 15px 30px;">
+                Iniciar Cuestionario
+            </button></a>
+        </div>
+    </div>
 </body>
 </html>

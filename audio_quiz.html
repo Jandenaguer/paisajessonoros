@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,10 +7,10 @@
     <link rel="stylesheet" href="./styles/style.css">
     <link rel="stylesheet" href="./styles/style_quiz.css">
     <link rel="stylesheet" href="./styles/style_nav.css">
-    <script src="script/showAudioInstructions.js" defer></script>
-    <script src="script/audio_quiz.js" defer></script>
+    <script src="script/quiz_demographic.js" defer></script>
+    <script src="script/quiz_audio.js" defer></script>
     <link rel="shortcut icon" href="./styles/images/logo3.ico">
-    <title>Cuestionario de Audio</title>
+    <title>Cuestionario de Paisajes Sonoros</title>
 </head>
 
 <body>
@@ -20,1628 +19,245 @@
             <img style="height: 30px;" src="./styles/images/logo_urjc.png" alt="URJC LOGO">
         </span>
         <ul class="nav__list">
-    
-          <li class="nav__item">
-            <a href="index.html" class="nav__link"><b>Inicio</b></a>
-          </li>
-          <li class="nav__item">
-            <a href="resultados.html" class="nav__link" ><b>Resultados</b></a>
-          </li>
-          <li class="nav__item">
-            <a href="comparation.html" class="nav__link"><b>Comparar Resultados</b></a>
-          </li>   
-          <li class="nav__item">
-            <a href="comparation-cities.html" class="nav__link"><b>Comparar Ciudades</b></a>
-          </li>
-          <li class="nav__item">
-            <a href="comparation-visual.html" class="nav__link"><b>Influencia Apoyo Visual</b></a>
-          </li>   
-          <li class="nav__item">
-            <a href="contacto.html" class="nav__link">Contacto</a>
-          </li>
-          <li class="nav__item">
-            <a href="#" class="nav__link" ></a>
-          </li>
+            <li class="nav__item">
+                <a href="index.html" class="nav__link"><b>Inicio</b></a>
+            </li>
         </ul>
-      </nav>
-    <div class="wrapper" id="wrapper2" style="display: flex;">
+    </nav>
+
+    <div class="wrapper" id="screen-instructions" style="display: flex;">
         <table>
             <caption>
-                <div id="wrapper_title_question">
-                    <h2>Cuestionario: Online-Audio</h2>
-                </div>
+                <h2>Cuestionario: Paisajes Sonoros</h2>
             </caption>
             <tbody>
-                <tr>
-                    <th>
-                        <h3>Instrucciones para el Usuario</h3>
-                    </th>
-                </tr>
                 <tr>
                     <td>
                         <div id="wrapper_instructions" style="width:fit-content;">
-                            <h3 id="instructions_text"><strong>• Estar en un ambiente tranquilo cuando se realice el
-                                    experimento.&nbsp;</strong><img src="./styles/images/silencio.png"
-                                    style="max-width:20px;">&nbsp;&nbsp;&nbsp;&nbsp;</h3>
-                            <h3 style=" min-width:fit-content;"></h3>
-                            <h3 id="instructions_text"><strong>• Usar auriculares que aíslen del entorno para escuchar
-                                    los audios.&nbsp;</strong><img src="./styles/images/headphone1.png"
-                                    style="max-width:20px;"></h3>
-                            <h3 id="instructions_text"><strong>• No reproducir los audios de apoyo mientras se está
-                                    reproduciendo otro audio.&nbsp;</strong><img src="./styles/images/no.png"
-                                    style="max-width:20px;background-color:white;border-radius: 50%;"></h3>
-                            <h3 id="instructions_text"><strong>• Marque en cada pregunta la opción que más se
-                                    ajuste.&nbsp;</strong><img src="./styles/images/select1.png"
-                                    style="max-width:20px;"></h3>
-                            <h3 id="instructions_text"><strong>• En caso de duda, utilice los audios de
-                                    apoyo.&nbsp;</strong><img src="./styles/images/duda1.png"
-                                    style="max-width:20px;border-radius: 50%;"></h3>
-                            <h3 id="instructions_text"><strong>• Puedes reproducir los archivos multimedia tantas veces
-                                    como creas, no hay un tiempo límite para hacer el cuestionario.&nbsp;</strong><img
-                                    src="./styles/images/update.png" style="max-width:20px;border-radius: 50%;"></h3>
-                            <h3 id="instructions_text"><strong>• Por favor, es <strong>MUY RECOMENDABLE </strong>
-                                    escuchar los siguientes audios para ajustar el volumen a su gusto de escucha.
-                                </strong></h3>
-                            <h3 id="instructions_text"><strong>&nbsp;- Reproduzca todos ellos y relaciónelos con las
-                                    características sonoras que indica su nombre.</strong></h3>
-                            <h3 id="instructions_text"><strong>&nbsp;- Para reproducir los audios pulse los botones de
-                                    abajo y posteriormente darle al botón play.</strong><img
-                                    src="./styles/images/play.png" style="max-width:20px;"></h3>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(0)">
-                                                    <h4>Audio Agradable <img id="img_pleasant" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_pleasant"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_pleasant" controls=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Pleasant/Agradable.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(1)">
-                                                    <h4>Audio Estático <img id="img_uneventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_uneventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_uneventful" controls=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Uneventful/No_definido.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(2)">
-                                                    <h4> Audio Desagradable <img id="img_annoying" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_annoying"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_annoying" controls=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Annoying/Molesto.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(3)">
-                                                    <h4> Audio Dinámico <img id="img_eventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_eventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_eventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Eventful/Eventful.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
+                            <h3><strong>Instrucciones</strong></h3>
+                            <h4>• Estar en un ambiente tranquilo durante el experimento.</h4>
+                            <h4>• Usar auriculares para escuchar los audios.</h4>
+                            <h4>• Cada audio se puede reproducir tantas veces como desee.</h4>
+                            <h4>• Marque las respuestas según su percepción personal.</h4>
+                            <h4>• El cuestionario contiene 27 audios y durará aproximadamente 20-30 minutos.</h4>
                         </div>
-                        <div id="wrapper_replys" style="margin-left: 5px;">
-                            <h2 style="text-align:center;">Preguntas Generales Iniciales al Participante</h2>
-                            <br>
-                            <h4>Para realizar este estudio es conveniente disfrutar de salud auditiva. Le sugerimos que
-                                realice un sencillo test para comprobarlo.</h4>
-                            <h4>El test en ningún caso es eliminatorio y siempre podrá participar en la encuesta de
-                                paisajes sonoros.</h4>
-                            <h4>Para realizarlo correctamente esté concentrado en un lugar sin distracciones y
-                                preferiblemente con auriculares. </h4>
-                            <h4>Puede hacerlo tantas veces como quiera. En ese caso tome la puntuación más alta.</h4>
-                            <br>
-                            <br>
-                            <h4>1. <strong>Introduce aquí tu puntuación auditiva obtenida en el test
-                                    hearWHO</strong>:&nbsp;&nbsp;<input type="number" id="score" min="0" max="100"
-                                    value="0" style="width:35px;text-align:center;"></h4>
-                            <br>
-                            <table style="width:700px;">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <h4>Si no tiene la App puede descargarsela y realizar el test leyendo el
-                                                siguiente QR.</h4>
-                                            <h4>• En caso de no realizar el cuestionario, escriba CERO en la puntuación:
-                                            </h4>
-                                            <h4>• En caso de sí realizar el cuestionario, escriba o marque la puntuación
-                                                que aparece al finalizar el test.</h4>
-                                            <h4>&nbsp;&nbsp;• El test de hearWHO se tarda en realizar solo unos pocos
-                                                minutos.</h4>
-                                        </td>
-                                        <td>
-                                            <img src="./styles/images/QR.PNG" alt="QRCODE" style="margin-left: 30% ">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br><br><br>
-                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h3><strong>Consentimiento Informado</strong></h3>
+                        <p>Este cuestionario forma parte de un estudio de investigación sobre percepción de paisajes sonoros. 
+                        Los datos recopilados se utilizarán exclusivamente para fines académicos. 
+                        Sus respuestas son anónimas y se almacenarán de forma segura.</p>
                     </td>
                 </tr>
                 <tr>
                     <th>
                         <div id="wrapper_next">
-                            <button id="button_next" onclick="go_to_questions()">Siguiente</button>
+                            <button id="button_next" onclick="startDemographics()">Comenzar Cuestionario</button>
                         </div>
                     </th>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div class="wrapper" id="question1" style="display: none;">
-        <table>
-            <caption>
-                <div id="wrapper_title_question">
-                    <h2>Cuestionario: Online-Audio</h2>
-                </div>
-            </caption>
-            <tbody>
-                <tr>
-                    <th style="padding-right: 5px;"></th>
-                    <th>
-                        <h3>Preguntas sobre el Escenario</h3>
-                    </th>
-                </tr>
-                <tr>
-                    <td rowspan="2" style="border-right: 2px white solid">
-                        <div id="wrapper_files" style="margin-right:10px;">
-                            <span id="wrapper_files1">
-                                <h1>Audio 1</h1>
-                                <iframe style="width:500px;height:300px" id="file_video"
-                                        src="https://www.youtube.com/embed/8uK-IPRQ6z4?controls=0?showinfo=0?modestbranding=1?loop=1?rel=0&amp;"
-                                        allow="accelerometer;loop;showinfo;modestbranding; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen="">
-                                </iframe>
-                            </span>
 
-                            <br>
-                        </div>
-                    </td>
-                    <td>
-                        <div id="wrapper_replys" style="margin-left: 5px;border-right: 2px #ffff solid">
-                            <h3>• Material de Apoyo <img style="width: 16px;background-color:#ffff;border-radius:50%;"
-                                    src="./styles/images/duda.png"></h3>
-                            <h5> A continuación se muestra el contenido de apoyo creado para que puedas identificar
-                                mejor cada opción.</h5>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(0)">
-                                                    <h4>Audio Agradable <img id="img_pleasant" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_pleasant"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_pleasant" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Pleasant/Agradable.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(1)">
-                                                    <h4>Audio Estático <img id="img_uneventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_uneventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_uneventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Uneventful/No_definido.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(2)">
-                                                    <h4> Audio Desagradable <img id="img_annoying" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_annoying"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_annoying" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Annoying/Molesto.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(3)">
-                                                    <h4> Audio Dinámico <img id="img_eventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_eventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_eventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Eventful/Eventful.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <h3>• Evaluación de la calidad acústica</h3>
-                            <table class="default">
-                                <caption>
-                                    <h3>1.¿En qué medida estás de acuerdo o en desacuerdo con los siguientes 8 adjetivos
-                                        como descriptores del entorno acústico que escuchas?</h3>
-                                </caption>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col">
-                                        </th>
-                                        <th>Muy en desacuerdo</th>
-                                        <th>En desacuerdo</th>
-                                        <th>Neutral</th>
-                                        <th>De acuerdo</th>
-                                        <th>Muy de acuerdo</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(0)">Agradable/Placentero<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places01" value="muy_desacuerdo" id="places01"
-                                                checked></td>
-                                        <td><input type="radio" name="places01" value="desacuerdo" id="places01"></td>
-                                        <td><input type="radio" name="places01" value="neutro" id="places01"></td>
-                                        <td><input type="radio" name="places01" value="acuerdo" id="places01"></td>
-                                        <td><input type="radio" name="places01" value="muy_acuerdo" id="places01"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(1)">Sin Actividad/Estático<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places11" value="muy_desacuerdo" id="places11"
-                                                checked></td>
-                                        <td><input type="radio" name="places11" value="desacuerdo" id="places11"></td>
-                                        <td><input type="radio" name="places11" value="neutro" id="places11"></td>
-                                        <td><input type="radio" name="places11" value="acuerdo" id="places11"></td>
-                                        <td><input type="radio" name="places11" value="muy_acuerdo" id="places11"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left;" onclick="show_audio(2)">Desagradable/Molesto<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places21" value="muy_desacuerdo" id="places21"
-                                                checked></td>
-                                        <td><input type="radio" name="places21" value="desacuerdo" id="places21"></td>
-                                        <td><input type="radio" name="places21" value="neutro" id="places21"></td>
-                                        <td><input type="radio" name="places21" value="acuerdo" id="places21"></td>
-                                        <td><input type="radio" name="places21" value="muy_acuerdo" id="places21"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(3)">Actividad/Dinámico<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places31" value="muy_desacuerdo" id="places31"
-                                                checked></td>
-                                        <td><input type="radio" name="places31" value="desacuerdo" id="places31"></td>
-                                        <td><input type="radio" name="places31" value="neutro" id="places31"></td>
-                                        <td><input type="radio" name="places31" value="acuerdo" id="places31"></td>
-                                        <td><input type="radio" name="places31" value="muy_acuerdo" id="places31"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br>2. <strong>En general, ¿Cómo describirías la calidad acústica del entorno que
-                                escuchas?</strong>:
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th style="padding-right: 1em;">Muy malo</th>
-                                        <th style="padding-right: 1em;">Malo</th>
-                                        <th style="padding-right: 1em;">Ni bueno ni malo</th>
-                                        <th style="padding-right: 1em;">Bueno</th>
-                                        <th style="padding-right: 1em;">Muy bueno</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Escoge una opción</th>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places41"
-                                                value="muy_malo" id="places41" checked></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places41" value="malo"
-                                                id="places41"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places41"
-                                                value="neutro" id="places41"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places41"
-                                                value="bueno" id="places41"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places41"
-                                                value="muy_bueno" id="places41"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br>
-                            3. <strong>¿Cuánto tiempo permanecerías en un lugar con un ambiente sonoro como
-                                este?</strong>:<br>
-                            <input type="radio" name="places51" value="insoportable" id="places51" checked>Me parece
-                            insoportable y no aguantaría ni 10 minutos.<br>
-                            <input type="radio" name="places51" value="molesto" id="places51">Me molesta un poco y no
-                            permanecería mucho tiempo ahí.<br>
-                            <input type="radio" name="places51" value="bien" id="places51">Para un rato está bien, pero
-                            sin más.<br>
-                            <input type="radio" name="places51" value="bastante" id="places51">Pasaría bastante tiempo
-                            en
-                            un lugar como este.<br>
-                            <input type="radio" name="places51" value="encanta" id="places51">Me encanta y pasaría el
-                            resto de mi vida en este lugar.<br><br>
-                            4. <strong>¿Para cuál de los siguientes contextos urbanos crees que es adecuado el entorno
-                                acústico que escuchas?</strong>:<br>
-                            <input type="radio" name="places61" value="comercial" id="places61" checked>Comercial<br>
-                            <input type="radio" name="places61" value="residencial" id="places61">Residencial<br>
-                            <input type="radio" name="places61" value="recreativo" id="places61">Recreativo<br>
-                            <input type="radio" name="places61" value="otro" id="places61">Otro<br><br>
-                            5. <strong>¿A qué período del año crees que se corresponde el entorno sonoro que
-                                escuchas?</strong>:<br>
-                            <input type="radio" name="places71" value="invierno" id="places71" checked>Invierno<br>
-                            <input type="radio" name="places71" value="verano" id="places71"> Verano<br>
-                            <input type="radio" name="places71" value="otro" id="places71"> Otro<br><br>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <div id="wrapper_next">
-                            <h5>Vas por el Audio UNO de SEIS</h5>
-                            <button id="button_next" onclick="next_option(2)">Siguiente</button>
-                        </div>
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="wrapper" id="question2" style="display: none;">
+    <div class="wrapper" id="screen-demographics" style="display: none;">
         <table>
             <caption>
-                <div id="wrapper_title_question">
-                    <h2>Cuestionario: Online-Audio</h2>
-                </div>
+                <h2>Datos del Participante</h2>
             </caption>
             <tbody>
                 <tr>
-                    <th style="padding-right: 5px;"></th>
-                    <th>
-                        <h3>Preguntas sobre el Escenario</h3>
-                    </th>
-                </tr>
-                <tr>
-                    <td rowspan="2" style="border-right: 2px white solid">
-                        <div id="wrapper_files" style="margin-right:10px;">
-                            <span id="wrapper_files2">
-                                <h1>Audio 2</h1>
-                                <iframe style="width:500px;height:300px" id="file_video"
-                                src="https://www.youtube.com/embed/rNXRfonwpWo?controls=0?showinfo=0?modestbranding=1?loop=1?rel=0&amp;"
-                                allow="accelerometer; loop;showinfo;modestbranding; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen=""></iframe>
-                            </span>
+                    <td>
+                        <div id="wrapper_replys">
+                            <h3>1. Edad</h3>
+                            <select id="edad" required>
+                                <option value="">Seleccione una opción</option>
+                                <option value="18-25">Entre 18 y 25 años</option>
+                                <option value="25-35">Entre 25 y 35 años</option>
+                                <option value="35-45">Entre 35 y 45 años</option>
+                                <option value="45-55">Entre 45 y 55 años</option>
+                                <option value="55-65">Entre 55 y 65 años</option>
+                                <option value="65+">Más de 65 años</option>
+                            </select>
+                            <br><br>
 
+                            <h3>2. Género</h3>
+                            <input type="radio" name="genero" value="Masculino" id="gen_m"> Masculino<br>
+                            <input type="radio" name="genero" value="Femenino" id="gen_f"> Femenino<br>
+                            <input type="radio" name="genero" value="Otro" id="gen_o"> Otro<br>
                             <br>
-                        </div>
-                    </td>
-                    <td>
-                        <div id="wrapper_replys" style="margin-left: 5px;border-right: 2px #ffff solid">
-                            <h3>• Material de Apoyo <img style="width: 16px;background-color:#ffff;border-radius:50%;"
-                                    src="./styles/images/duda.png"></h3>
-                            <h5> A continuación se muestra el contenido de apoyo creado para que puedas identificar
-                                mejor cada opción.</h5>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(0)">
-                                                    <h4>Audio Agradable <img id="img_pleasant" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_pleasant"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_pleasant" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Pleasant/Agradable.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(1)">
-                                                    <h4>Audio Estático <img id="img_uneventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_uneventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_uneventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Uneventful/No_definido.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(2)">
-                                                    <h4> Audio Desagradable <img id="img_annoying" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_annoying"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_annoying" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Annoying/Molesto.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(3)">
-                                                    <h4> Audio Dinámico <img id="img_eventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_eventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_eventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Eventful/Eventful.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <h3>• Evaluación de la calidad acústica</h3>
-                            <table class="default">
-                                <caption>
-                                    <h3>1.¿En qué medida estás de acuerdo o en desacuerdo con los siguientes 8 adjetivos
-                                        como descriptores del entorno acústico que escuchas?</h3>
-                                </caption>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col">
-                                        </th>
-                                        <th>Muy en desacuerdo</th>
-                                        <th>En desacuerdo</th>
-                                        <th>Neutral</th>
-                                        <th>De acuerdo</th>
-                                        <th>Muy de acuerdo</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(0)">Agradable/Placentero<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places02" value="muy_desacuerdo" id="places02"
-                                                checked></td>
-                                        <td><input type="radio" name="places02" value="desacuerdo" id="places02"></td>
-                                        <td><input type="radio" name="places02" value="neutro" id="places02"></td>
-                                        <td><input type="radio" name="places02" value="acuerdo" id="places02"></td>
-                                        <td><input type="radio" name="places02" value="muy_acuerdo" id="places02"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(1)">Sin Actividad/Estático<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places12" value="muy_desacuerdo" id="places12"
-                                                checked></td>
-                                        <td><input type="radio" name="places12" value="desacuerdo" id="places12"></td>
-                                        <td><input type="radio" name="places12" value="neutro" id="places12"></td>
-                                        <td><input type="radio" name="places12" value="acuerdo" id="places12"></td>
-                                        <td><input type="radio" name="places12" value="muy_acuerdo" id="places12"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left;" onclick="show_audio(2)">Desagradable/Molesto<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places22" value="muy_desacuerdo" id="places22"
-                                                checked></td>
-                                        <td><input type="radio" name="places22" value="desacuerdo" id="places22"></td>
-                                        <td><input type="radio" name="places22" value="neutro" id="places22"></td>
-                                        <td><input type="radio" name="places22" value="acuerdo" id="places22"></td>
-                                        <td><input type="radio" name="places22" value="muy_acuerdo" id="places22"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(3)">Actividad/Dinámico<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places32" value="muy_desacuerdo" id="places32"
-                                                checked></td>
-                                        <td><input type="radio" name="places32" value="desacuerdo" id="places32"></td>
-                                        <td><input type="radio" name="places32" value="neutro" id="places32"></td>
-                                        <td><input type="radio" name="places32" value="acuerdo" id="places32"></td>
-                                        <td><input type="radio" name="places32" value="muy_acuerdo" id="places32"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br>2. <strong>En general, ¿Cómo describirías la calidad acústica del entorno que
-                                escuchas?</strong>:
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th style="padding-right: 1em;">Muy malo</th>
-                                        <th style="padding-right: 1em;">Malo</th>
-                                        <th style="padding-right: 1em;">Ni bueno ni malo</th>
-                                        <th style="padding-right: 1em;">Bueno</th>
-                                        <th style="padding-right: 1em;">Muy bueno</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Escoge una opción</th>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places42"
-                                                value="muy_malo" id="places42" checked></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places42" value="malo"
-                                                id="places42"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places42"
-                                                value="neutro" id="places42"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places42"
-                                                value="bueno" id="places42"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places42"
-                                                value="muy_bueno" id="places42"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br>
-                            3. <strong>¿Cuánto tiempo permanecerías en un lugar con un ambiente sonoro como
-                                este?</strong>:<br>
-                            <input type="radio" name="places52" value="insoportable" id="places52" checked>Me parece
-                            insoportable y no aguantaría ni 10 minutos.<br>
-                            <input type="radio" name="places52" value="molesto" id="places52">Me molesta un poco y no
-                            permanecería mucho tiempo ahí.<br>
-                            <input type="radio" name="places52" value="bien" id="places52">Para un rato está bien, pero
-                            sin más.<br>
-                            <input type="radio" name="places52" value="bastante" id="places52">Pasaría bastante tiempo
-                            en
-                            un lugar como este.<br>
-                            <input type="radio" name="places52" value="encanta" id="places52">Me encanta y pasaría el
-                            resto de mi vida en este lugar.<br><br>
-                            4. <strong>¿Para cuál de los siguientes contextos urbanos crees que es adecuado el entorno
-                                acústico que escuchas?</strong>:<br>
-                            <input type="radio" name="places62" value="comercial" id="places62" checked>Comercial<br>
-                            <input type="radio" name="places62" value="residencial" id="places62">Residencial<br>
-                            <input type="radio" name="places62" value="recreativo" id="places62">Recreativo<br>
-                            <input type="radio" name="places62" value="otro" id="places62">Otro<br><br>
-                            5. <strong>¿A qué período del año crees que se corresponde el entorno sonoro que
-                                escuchas?</strong>:<br>
-                            <input type="radio" name="places72" value="invierno" id="places72" checked>Invierno<br>
-                            <input type="radio" name="places72" value="verano" id="places72"> Verano<br>
-                            <input type="radio" name="places72" value="otro" id="places72"> Otro<br><br>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <div id="wrapper_next">
-                            <h5>Vas por el Audio DOS de SEIS</h5>
-                            <button id="button_next" onclick="next_option(3)">Siguiente</button>
-                        </div>
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="wrapper" id="question3" style="display: none;">
-        <table>
-            <caption>
-                <div id="wrapper_title_question">
-                    <h2>Cuestionario: Online-Audio</h2>
-                </div>
-            </caption>
-            <tbody>
-                <tr>
-                    <th style="padding-right: 5px;"></th>
-                    <th>
-                        <h3>Preguntas sobre el Escenario</h3>
-                    </th>
-                </tr>
-                <tr>
-                    <td rowspan="2" style="border-right: 2px white solid">
-                        <div id="wrapper_files" style="margin-right:10px;">
-                            <span id="wrapper_files3">
-                                <h1>Audio 3</h1>
-                                <iframe style="width:500px;height:300px" id="file_video"
-                                src="https://www.youtube.com/embed/UyJ7utph0QQ?controls=0?showinfo=0?modestbranding=1?loop=1?rel=0&amp;"
-                                allow="accelerometer; loop;showinfo;modestbranding; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen=""></iframe>
-                            </span>
-                            <br>
-                        </div>
-                    </td>
-                    <td>
-                        <div id="wrapper_replys" style="margin-left: 5px;border-right: 2px #ffff solid">
-                            <h3>• Material de Apoyo <img style="width: 16px;background-color:#ffff;border-radius:50%;"
-                                    src="./styles/images/duda.png"></h3>
-                            <h5> A continuación se muestra el contenido de apoyo creado para que puedas identificar
-                                mejor cada opción.</h5>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(0)">
-                                                    <h4>Audio Agradable <img id="img_pleasant" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_pleasant"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_pleasant" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Pleasant/Agradable.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(1)">
-                                                    <h4>Audio Estático <img id="img_uneventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_uneventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_uneventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Uneventful/No_definido.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(2)">
-                                                    <h4> Audio Desagradable <img id="img_annoying" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_annoying"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_annoying" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Annoying/Molesto.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(3)">
-                                                    <h4> Audio Dinámico <img id="img_eventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_eventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_eventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Eventful/Eventful.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <h3>• Evaluación de la calidad acústica</h3>
-                            <table class="default">
-                                <caption>
-                                    <h3>1.¿En qué medida estás de acuerdo o en desacuerdo con los siguientes 8 adjetivos
-                                        como descriptores del entorno acústico que escuchas?</h3>
-                                </caption>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col">
-                                        </th>
-                                        <th>Muy en desacuerdo</th>
-                                        <th>En desacuerdo</th>
-                                        <th>Neutral</th>
-                                        <th>De acuerdo</th>
-                                        <th>Muy de acuerdo</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(0)">Agradable/Placentero<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places03" value="muy_desacuerdo" id="places03"
-                                                checked></td>
-                                        <td><input type="radio" name="places03" value="desacuerdo" id="places03"></td>
-                                        <td><input type="radio" name="places03" value="neutro" id="places03"></td>
-                                        <td><input type="radio" name="places03" value="acuerdo" id="places03"></td>
-                                        <td><input type="radio" name="places03" value="muy_acuerdo" id="places03"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(1)">Sin Actividad/Estático<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places13" value="muy_desacuerdo" id="places13"
-                                                checked></td>
-                                        <td><input type="radio" name="places13" value="desacuerdo" id="places13"></td>
-                                        <td><input type="radio" name="places13" value="neutro" id="places13"></td>
-                                        <td><input type="radio" name="places13" value="acuerdo" id="places13"></td>
-                                        <td><input type="radio" name="places13" value="muy_acuerdo" id="places13"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left;" onclick="show_audio(2)">Desagradable/Molesto<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places23" value="muy_desacuerdo" id="places23"
-                                                checked></td>
-                                        <td><input type="radio" name="places23" value="desacuerdo" id="places23"></td>
-                                        <td><input type="radio" name="places23" value="neutro" id="places23"></td>
-                                        <td><input type="radio" name="places23" value="acuerdo" id="places23"></td>
-                                        <td><input type="radio" name="places23" value="muy_acuerdo" id="places23"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(3)">Actividad/Dinámico<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places33" value="muy_desacuerdo" id="places33"
-                                                checked></td>
-                                        <td><input type="radio" name="places33" value="desacuerdo" id="places33"></td>
-                                        <td><input type="radio" name="places33" value="neutro" id="places33"></td>
-                                        <td><input type="radio" name="places33" value="acuerdo" id="places33"></td>
-                                        <td><input type="radio" name="places33" value="muy_acuerdo" id="places33"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br>2. <strong>En general, ¿Cómo describirías la calidad acústica del entorno que
-                                escuchas?</strong>:
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th style="padding-right: 1em;">Muy malo</th>
-                                        <th style="padding-right: 1em;">Malo</th>
-                                        <th style="padding-right: 1em;">Ni bueno ni malo</th>
-                                        <th style="padding-right: 1em;">Bueno</th>
-                                        <th style="padding-right: 1em;">Muy bueno</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Escoge una opción</th>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places43"
-                                                value="muy_malo" id="places43" checked></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places43" value="malo"
-                                                id="places43"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places43"
-                                                value="neutro" id="places43"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places43"
-                                                value="bueno" id="places43"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places43"
-                                                value="muy_bueno" id="places43"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br>
-                            3. <strong>¿Cuánto tiempo permanecerías en un lugar con un ambiente sonoro como
-                                este?</strong>:<br>
-                            <input type="radio" name="places53" value="insoportable" id="places53" checked>Me parece
-                            insoportable y no aguantaría ni 10 minutos.<br>
-                            <input type="radio" name="places53" value="molesto" id="places53">Me molesta un poco y no
-                            permanecería mucho tiempo ahí.<br>
-                            <input type="radio" name="places53" value="bien" id="places53">Para un rato está bien, pero
-                            sin más.<br>
-                            <input type="radio" name="places53" value="bastante" id="places53">Pasaría bastante tiempo
-                            en
-                            un lugar como este.<br>
-                            <input type="radio" name="places53" value="encanta" id="places53">Me encanta y pasaría el
-                            resto de mi vida en este lugar.<br><br>
-                            4. <strong>¿Para cuál de los siguientes contextos urbanos crees que es adecuado el entorno
-                                acústico que escuchas?</strong>:<br>
-                            <input type="radio" name="places63" value="comercial" id="places63" checked>Comercial<br>
-                            <input type="radio" name="places63" value="residencial" id="places63">Residencial<br>
-                            <input type="radio" name="places63" value="recreativo" id="places63">Recreativo<br>
-                            <input type="radio" name="places63" value="otro" id="places63">Otro<br><br>
-                            5. <strong>¿A qué período del año crees que se corresponde el entorno sonoro que
-                                escuchas?</strong>:<br>
-                            <input type="radio" name="places73" value="invierno" id="places73" checked>Invierno<br>
-                            <input type="radio" name="places73" value="verano" id="places73"> Verano<br>
-                            <input type="radio" name="places73" value="otro" id="places73"> Otro<br><br>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <div id="wrapper_next">
-                            <h5>Vas por el Audio TRES de SEIS</h5>
-                            <button id="button_next" onclick="next_option(4)">Siguiente</button>
-                        </div>
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="wrapper" id="question4" style="display: none;">
-        <table>
-            <caption>
-                <div id="wrapper_title_question">
-                    <h2>Cuestionario: Online-Audio</h2>
-                </div>
-            </caption>
-            <tbody>
-                <tr>
-                    <th style="padding-right: 5px;"></th>
-                    <th>
-                        <h3>Preguntas sobre el Escenario</h3>
-                    </th>
-                </tr>
-                <tr>
-                    <td rowspan="2" style="border-right: 2px white solid">
-                        <div id="wrapper_files" style="margin-right:10px;">
-                            <span id="wrapper_files4">
-                                <h1>Audio 4</h1>
-                                <iframe style="width:500px;height:300px" id="file_video"
-                                src="https://www.youtube.com/embed/EU2TVwpG-UA?controls=0?showinfo=0?modestbranding=1?loop=1?rel=0&amp;"
-                                allow="accelerometer; loop;showinfo;modestbranding; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen=""></iframe>
-                            </span>
-                            <br>
-                        </div>
-                    </td>
-                    <td>
-                        <div id="wrapper_replys" style="margin-left: 5px;border-right: 2px #ffff solid">
-                            <h3>• Material de Apoyo <img style="width: 16px;background-color:#ffff;border-radius:50%;"
-                                    src="./styles/images/duda.png"></h3>
-                            <h5> A continuación se muestra el contenido de apoyo creado para que puedas identificar
-                                mejor cada opción.</h5>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(0)">
-                                                    <h4>Audio Agradable <img id="img_pleasant" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_pleasant"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_pleasant" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Pleasant/Agradable.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(1)">
-                                                    <h4>Audio Estático <img id="img_uneventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_uneventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_uneventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Uneventful/No_definido.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(2)">
-                                                    <h4> Audio Desagradable <img id="img_annoying" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_annoying"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_annoying" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Annoying/Molesto.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(3)">
-                                                    <h4> Audio Dinámico <img id="img_eventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_eventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_eventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Eventful/Eventful.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <h3>• Evaluación de la calidad acústica</h3>
-                            <table class="default">
-                                <caption>
-                                    <h3>1.¿En qué medida estás de acuerdo o en desacuerdo con los siguientes 8 adjetivos
-                                        como descriptores del entorno acústico que escuchas?</h3>
-                                </caption>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col">
-                                        </th>
-                                        <th>Muy en desacuerdo</th>
-                                        <th>En desacuerdo</th>
-                                        <th>Neutral</th>
-                                        <th>De acuerdo</th>
-                                        <th>Muy de acuerdo</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(0)">Agradable/Placentero<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places04" value="muy_desacuerdo" id="places04"
-                                                checked></td>
-                                        <td><input type="radio" name="places04" value="desacuerdo" id="places04"></td>
-                                        <td><input type="radio" name="places04" value="neutro" id="places04"></td>
-                                        <td><input type="radio" name="places04" value="acuerdo" id="places04"></td>
-                                        <td><input type="radio" name="places04" value="muy_acuerdo" id="places04"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(1)">Sin Actividad/Estático<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places14" value="muy_desacuerdo" id="places14"
-                                                checked></td>
-                                        <td><input type="radio" name="places14" value="desacuerdo" id="places14"></td>
-                                        <td><input type="radio" name="places14" value="neutro" id="places14"></td>
-                                        <td><input type="radio" name="places14" value="acuerdo" id="places14"></td>
-                                        <td><input type="radio" name="places14" value="muy_acuerdo" id="places14"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left;" onclick="show_audio(2)">Desagradable/Molesto<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places24" value="muy_desacuerdo" id="places24"
-                                                checked></td>
-                                        <td><input type="radio" name="places24" value="desacuerdo" id="places24"></td>
-                                        <td><input type="radio" name="places24" value="neutro" id="places24"></td>
-                                        <td><input type="radio" name="places24" value="acuerdo" id="places24"></td>
-                                        <td><input type="radio" name="places24" value="muy_acuerdo" id="places24"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(3)">Actividad/Dinámico<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places34" value="muy_desacuerdo" id="places34"
-                                                checked></td>
-                                        <td><input type="radio" name="places34" value="desacuerdo" id="places34"></td>
-                                        <td><input type="radio" name="places34" value="neutro" id="places34"></td>
-                                        <td><input type="radio" name="places34" value="acuerdo" id="places34"></td>
-                                        <td><input type="radio" name="places34" value="muy_acuerdo" id="places34"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br>2. <strong>En general, ¿Cómo describirías la calidad acústica del entorno que
-                                escuchas?</strong>:
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th style="padding-right: 1em;">Muy malo</th>
-                                        <th style="padding-right: 1em;">Malo</th>
-                                        <th style="padding-right: 1em;">Ni bueno ni malo</th>
-                                        <th style="padding-right: 1em;">Bueno</th>
-                                        <th style="padding-right: 1em;">Muy bueno</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Escoge una opción</th>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places44"
-                                                value="muy_malo" id="places44" checked></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places44" value="malo"
-                                                id="places44"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places44"
-                                                value="neutro" id="places44"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places44"
-                                                value="bueno" id="places44"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places44"
-                                                value="muy_bueno" id="places44"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br>
-                            3. <strong>¿Cuánto tiempo permanecerías en un lugar con un ambiente sonoro como
-                                este?</strong>:<br>
-                            <input type="radio" name="places54" value="insoportable" id="places54" checked>Me parece
-                            insoportable y no aguantaría ni 10 minutos.<br>
-                            <input type="radio" name="places54" value="molesto" id="places54">Me molesta un poco y no
-                            permanecería mucho tiempo ahí.<br>
-                            <input type="radio" name="places54" value="bien" id="places54">Para un rato está bien, pero
-                            sin más.<br>
-                            <input type="radio" name="places54" value="bastante" id="places54">Pasaría bastante tiempo
-                            en
-                            un lugar como este.<br>
-                            <input type="radio" name="places54" value="encanta" id="places54">Me encanta y pasaría el
-                            resto de mi vida en este lugar.<br><br>
-                            4. <strong>¿Para cuál de los siguientes contextos urbanos crees que es adecuado el entorno
-                                acústico que escuchas?</strong>:<br>
-                            <input type="radio" name="places64" value="comercial" id="places64" checked>Comercial<br>
-                            <input type="radio" name="places64" value="residencial" id="places64">Residencial<br>
-                            <input type="radio" name="places64" value="recreativo" id="places64">Recreativo<br>
-                            <input type="radio" name="places64" value="otro" id="places64">Otro<br><br>
-                            5. <strong>¿A qué período del año crees que se corresponde el entorno sonoro que
-                                escuchas?</strong>:<br>
-                            <input type="radio" name="places74" value="invierno" id="places74" checked>Invierno<br>
-                            <input type="radio" name="places74" value="verano" id="places74"> Verano<br>
-                            <input type="radio" name="places74" value="otro" id="places74"> Otro<br><br>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <div id="wrapper_next">
-                            <h5>Vas por el Audio CUARTO de SEIS</h5>
-                            <button id="button_next" onclick="next_option(5)">Siguiente</button>
-                        </div>
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="wrapper" id="question5" style="display: none;">
-        <table>
-            <caption>
-                <div id="wrapper_title_question">
-                    <h2>Cuestionario: Online-Audio</h2>
-                </div>
-            </caption>
-            <tbody>
-                <tr>
-                    <th style="padding-right: 5px;"></th>
-                    <th>
-                        <h3>Preguntas sobre el Escenario</h3>
-                    </th>
-                </tr>
-                <tr>
-                    <td rowspan="2" style="border-right: 2px white solid">
-                        <div id="wrapper_files" style="margin-right:10px;">
-                            <span id="wrapper_files5">
-                                <h1>Audio 5</h1>
-                                <iframe style="width:500px;height:300px" id="file_video"
-                                src="https://www.youtube.com/embed/f_KCmmKUous?controls=0?showinfo=0?modestbranding=1?loop=1?rel=0&amp;"
-                                allow="accelerometer; loop;showinfo;modestbranding; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen=""></iframe>
-                            </span>
-                            <br>
-                        </div>
-                    </td>
-                    <td>
-                        <div id="wrapper_replys" style="margin-left: 5px;border-right: 2px #ffff solid">
-                            <h3>• Material de Apoyo <img style="width: 16px;background-color:#ffff;border-radius:50%;"
-                                    src="./styles/images/duda.png"></h3>
-                            <h5> A continuación se muestra el contenido de apoyo creado para que puedas identificar
-                                mejor cada opción.</h5>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(0)">
-                                                    <h4>Audio Agradable <img id="img_pleasant" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_pleasant"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_pleasant" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Pleasant/Agradable.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(1)">
-                                                    <h4>Audio Estático <img id="img_uneventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_uneventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_uneventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Uneventful/No_definido.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(2)">
-                                                    <h4> Audio Desagradable <img id="img_annoying" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_annoying"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_annoying" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Annoying/Molesto.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(3)">
-                                                    <h4> Audio Dinámico <img id="img_eventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_eventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_eventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Eventful/Eventful.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <h3>• Evaluación de la calidad acústica</h3>
-                            <table class="default">
-                                <caption>
-                                    <h3>1.¿En qué medida estás de acuerdo o en desacuerdo con los siguientes 8 adjetivos
-                                        como descriptores del entorno acústico que escuchas?</h3>
-                                </caption>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col">
-                                        </th>
-                                        <th>Muy en desacuerdo</th>
-                                        <th>En desacuerdo</th>
-                                        <th>Neutral</th>
-                                        <th>De acuerdo</th>
-                                        <th>Muy de acuerdo</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(0)">Agradable/Placentero<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places05" value="muy_desacuerdo" id="places05"
-                                                checked></td>
-                                        <td><input type="radio" name="places05" value="desacuerdo" id="places05"></td>
-                                        <td><input type="radio" name="places05" value="neutro" id="places05"></td>
-                                        <td><input type="radio" name="places05" value="acuerdo" id="places05"></td>
-                                        <td><input type="radio" name="places05" value="muy_acuerdo" id="places05"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(1)">Sin Actividad/Estático<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places15" value="muy_desacuerdo" id="places15"
-                                                checked></td>
-                                        <td><input type="radio" name="places15" value="desacuerdo" id="places15"></td>
-                                        <td><input type="radio" name="places15" value="neutro" id="places15"></td>
-                                        <td><input type="radio" name="places15" value="acuerdo" id="places15"></td>
-                                        <td><input type="radio" name="places15" value="muy_acuerdo" id="places15"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left;" onclick="show_audio(2)">Desagradable/Molesto<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places25" value="muy_desacuerdo" id="places25"
-                                                checked></td>
-                                        <td><input type="radio" name="places25" value="desacuerdo" id="places25"></td>
-                                        <td><input type="radio" name="places25" value="neutro" id="places25"></td>
-                                        <td><input type="radio" name="places25" value="acuerdo" id="places25"></td>
-                                        <td><input type="radio" name="places25" value="muy_acuerdo" id="places25"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(3)">Actividad/Dinámico<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places35" value="muy_desacuerdo" id="places35"
-                                                checked></td>
-                                        <td><input type="radio" name="places35" value="desacuerdo" id="places35"></td>
-                                        <td><input type="radio" name="places35" value="neutro" id="places35"></td>
-                                        <td><input type="radio" name="places35" value="acuerdo" id="places35"></td>
-                                        <td><input type="radio" name="places35" value="muy_acuerdo" id="places35"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br>2. <strong>En general, ¿Cómo describirías la calidad acústica del entorno que
-                                escuchas?</strong>:
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th style="padding-right: 1em;">Muy malo</th>
-                                        <th style="padding-right: 1em;">Malo</th>
-                                        <th style="padding-right: 1em;">Ni bueno ni malo</th>
-                                        <th style="padding-right: 1em;">Bueno</th>
-                                        <th style="padding-right: 1em;">Muy bueno</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Escoge una opción</th>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places45"
-                                                value="muy_malo" id="places45" checked></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places45" value="malo"
-                                                id="places45"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places45"
-                                                value="neutro" id="places45"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places45"
-                                                value="bueno" id="places45"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places45"
-                                                value="muy_bueno" id="places45"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br>
-                            3. <strong>¿Cuánto tiempo permanecerías en un lugar con un ambiente sonoro como
-                                este?</strong>:<br>
-                            <input type="radio" name="places55" value="insoportable" id="places55" checked>Me parece
-                            insoportable y no aguantaría ni 10 minutos.<br>
-                            <input type="radio" name="places55" value="molesto" id="places55">Me molesta un poco y no
-                            permanecería mucho tiempo ahí.<br>
-                            <input type="radio" name="places55" value="bien" id="places55">Para un rato está bien, pero
-                            sin más.<br>
-                            <input type="radio" name="places55" value="bastante" id="places55">Pasaría bastante tiempo
-                            en
-                            un lugar como este.<br>
-                            <input type="radio" name="places55" value="encanta" id="places55">Me encanta y pasaría el
-                            resto de mi vida en este lugar.<br><br>
-                            4. <strong>¿Para cuál de los siguientes contextos urbanos crees que es adecuado el entorno
-                                acústico que escuchas?</strong>:<br>
-                            <input type="radio" name="places65" value="comercial" id="places65" checked>Comercial<br>
-                            <input type="radio" name="places65" value="residencial" id="places65">Residencial<br>
-                            <input type="radio" name="places65" value="recreativo" id="places65">Recreativo<br>
-                            <input type="radio" name="places65" value="otro" id="places65">Otro<br><br>
-                            5. <strong>¿A qué período del año crees que se corresponde el entorno sonoro que
-                                escuchas?</strong>:<br>
-                            <input type="radio" name="places75" value="invierno" id="places75" checked>Invierno<br>
-                            <input type="radio" name="places75" value="verano" id="places75"> Verano<br>
-                            <input type="radio" name="places75" value="otro" id="places75"> Otro<br><br>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <div id="wrapper_next">
-                            <h5>Vas por el Audio CINCO de SEIS</h5>
-                            <button id="button_next" onclick="next_option(6)">Siguiente</button>
-                        </div>
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="wrapper" id="question6" style="display: none;">
-        <table>
-            <caption>
-                <div id="wrapper_title_question">
-                    <h2>Cuestionario: Online-Audio</h2>
-                </div>
-            </caption>
-            <tbody>
-                <tr>
-                    <th style="padding-right: 5px;"></th>
-                    <th>
-                        <h3>Preguntas sobre el Escenario</h3>
-                    </th>
-                </tr>
-                <tr>
-                    <td rowspan="2" style="border-right: 2px white solid">
-                        <div id="wrapper_files" style="margin-right:10px;">
-                            <span id="wrapper_files6">
-                                <h1>Audio 6</h1>
-                                <iframe style="width:500px;height:300px" id="file_video"
-                                src="https://www.youtube.com/embed/jUPK0Aq4Gi4?controls=0?showinfo=0?modestbranding=1?loop=1?rel=0&amp;"
-                                allow="accelerometer;loop;showinfo;modestbranding; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen=""></iframe>
-                            </span>
-                            <br>
-                        </div>
-                    </td>
-                    <td>
-                        <div id="wrapper_replys" style="margin-left: 5px;border-right: 2px #ffff solid">
-                            <h3>• Material de Apoyo <img style="width: 16px;background-color:#ffff;border-radius:50%;"
-                                    src="./styles/images/duda.png"></h3>
-                            <h5> A continuación se muestra el contenido de apoyo creado para que puedas identificar
-                                mejor cada opción.</h5>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(0)">
-                                                    <h4>Audio Agradable <img id="img_pleasant" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_pleasant"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_pleasant" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Pleasant/Agradable.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(1)">
-                                                    <h4>Audio Estático <img id="img_uneventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_uneventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_uneventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Uneventful/No_definido.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(2)">
-                                                    <h4> Audio Desagradable <img id="img_annoying" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_annoying"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_annoying" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Annoying/Molesto.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="text-align: center;margin: 0 auto;width: 180px;">
-                                                <div id="div_support" onclick="show_audio(3)">
-                                                    <h4> Audio Dinámico <img id="img_eventful" style="width: 12px;"
-                                                            src="./styles/images/down-arrow.png"></h4>
-                                                </div>
-                                                <div id="support_eventful"
-                                                    style="text-align: center;margin: 0 auto;width: 180px;">
-                                                    <audio id="audio_support_eventful" controls="" loop=""
-                                                        style="width: 180px;">
-                                                        <source src="./resources/examples/Eventful/Eventful.wav">
-                                                    </audio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <h3>• Evaluación de la calidad acústica</h3>
-                            <table class="default">
-                                <caption>
-                                    <h3>1.¿En qué medida estás de acuerdo o en desacuerdo con los siguientes 8 adjetivos
-                                        como descriptores del entorno acústico que escuchas?</h3>
-                                </caption>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col">
-                                        </th>
-                                        <th>Muy en desacuerdo</th>
-                                        <th>En desacuerdo</th>
-                                        <th>Neutral</th>
-                                        <th>De acuerdo</th>
-                                        <th>Muy de acuerdo</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(0)">Agradable/Placentero<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places06" value="muy_desacuerdo" id="places06"
-                                                checked></td>
-                                        <td><input type="radio" name="places06" value="desacuerdo" id="places06"></td>
-                                        <td><input type="radio" name="places06" value="neutro" id="places06"></td>
-                                        <td><input type="radio" name="places06" value="acuerdo" id="places06"></td>
-                                        <td><input type="radio" name="places06" value="muy_acuerdo" id="places06"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(1)">Sin Actividad/Estático<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places16" value="muy_desacuerdo" id="places16"
-                                                checked></td>
-                                        <td><input type="radio" name="places16" value="desacuerdo" id="places16"></td>
-                                        <td><input type="radio" name="places16" value="neutro" id="places16"></td>
-                                        <td><input type="radio" name="places16" value="acuerdo" id="places16"></td>
-                                        <td><input type="radio" name="places16" value="muy_acuerdo" id="places16"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left;" onclick="show_audio(2)">Desagradable/Molesto<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places26" value="muy_desacuerdo" id="places26"
-                                                checked></td>
-                                        <td><input type="radio" name="places26" value="desacuerdo" id="places26"></td>
-                                        <td><input type="radio" name="places26" value="neutro" id="places26"></td>
-                                        <td><input type="radio" name="places26" value="acuerdo" id="places26"></td>
-                                        <td><input type="radio" name="places26" value="muy_acuerdo" id="places26"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:left" onclick="show_audio(3)">Actividad/Dinámico<img
-                                                style="width: 16px;background-color:#ffff;border-radius:50%;cursor:pointer;"
-                                                src="./styles/images/duda.png"></th>
-                                        <td><input type="radio" name="places36" value="muy_desacuerdo" id="places36"
-                                                checked></td>
-                                        <td><input type="radio" name="places36" value="desacuerdo" id="places36"></td>
-                                        <td><input type="radio" name="places36" value="neutro" id="places36"></td>
-                                        <td><input type="radio" name="places36" value="acuerdo" id="places36"></td>
-                                        <td><input type="radio" name="places36" value="muy_acuerdo" id="places36"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br>2. <strong>En general, ¿Cómo describirías la calidad acústica del entorno que
-                                escuchas?</strong>:
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th style="padding-right: 1em;">Muy malo</th>
-                                        <th style="padding-right: 1em;">Malo</th>
-                                        <th style="padding-right: 1em;">Ni bueno ni malo</th>
-                                        <th style="padding-right: 1em;">Bueno</th>
-                                        <th style="padding-right: 1em;">Muy bueno</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Escoge una opción</th>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places46"
-                                                value="muy_malo" id="places46" checked></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places46" value="malo"
-                                                id="places46"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places46"
-                                                value="neutro" id="places46"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places46"
-                                                value="bueno" id="places46"></td>
-                                        <td style="padding-right: 1em;"><input type="radio" name="places46"
-                                                value="muy_bueno" id="places46"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br><br>
-                            3. <strong>¿Cuánto tiempo permanecerías en un lugar con un ambiente sonoro como
-                                este?</strong>:<br>
-                            <input type="radio" name="places56" value="insoportable" id="places56" checked>Me parece
-                            insoportable y no aguantaría ni 10 minutos.<br>
-                            <input type="radio" name="places56" value="molesto" id="places56">Me molesta un poco y no
-                            permanecería mucho tiempo ahí.<br>
-                            <input type="radio" name="places56" value="bien" id="places56">Para un rato está bien, pero
-                            sin más.<br>
-                            <input type="radio" name="places56" value="bastante" id="places56">Pasaría bastante tiempo
-                            en
-                            un lugar como este.<br>
-                            <input type="radio" name="places56" value="encanta" id="places56">Me encanta y pasaría el
-                            resto de mi vida en este lugar.<br><br>
-                            4. <strong>¿Para cuál de los siguientes contextos urbanos crees que es adecuado el entorno
-                                acústico que escuchas?</strong>:<br>
-                            <input type="radio" name="places66" value="comercial" id="places66" checked>Comercial<br>
-                            <input type="radio" name="places66" value="residencial" id="places66">Residencial<br>
-                            <input type="radio" name="places66" value="recreativo" id="places66">Recreativo<br>
-                            <input type="radio" name="places66" value="otro" id="places66">Otro<br><br>
-                            5. <strong>¿A qué período del año crees que se corresponde el entorno sonoro que
-                                escuchas?</strong>:<br>
-                            <input type="radio" name="places76" value="invierno" id="places76" checked>Invierno<br>
-                            <input type="radio" name="places76" value="verano" id="places76"> Verano<br>
-                            <input type="radio" name="places76" value="otro" id="places76"> Otro<br><br>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <div id="wrapper_next">
-                            <h5>Vas por el Audio SEIS de SEIS</h5>
-                            <button id="button_next" onclick="last_question()">Siguiente</button>
-                        </div>
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="wrapper" id="question_final" style="display:none;margin-left:25%">
-        <table>
-            <caption>
-                <div id="wrapper_title_question">
-                    <h2>Cuestionario: Online-Audio</h2>
-                </div>
-            </caption>
-            <tbody>
-                <tr>
-                    <th>
-                        <h3>Preguntas Finales para el Usuario</h3>
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                        <div id="wrapper_replys" style="margin-left: 5px;">
-                            1. <strong>¿Conoces Menorca?¿En qué grado estás familiarizado/a o relacionado/a con la
-                                isla?</strong>:<br>
-                            <input type="radio" name="last_0" value="no" id="last_0" checked>No, no he ido nunca<br>
-                            <input type="radio" name="last_0" value="si_poco" id="last_0">Sí, he estado una o dos
-                            veces.<br>
-                            <input type="radio" name="last_0" value="si_neutro" id="last_0">Sí, la visito regularmente
-                            cada año.<br>
-                            <input type="radio" name="last_0" value="si_mucho" id="last_0">Sí, soy residente en la
-                            isla.<br><br><br>
-                            2. <strong>¿Tienes algún tipo de conocimiento o formación en Acústica?</strong>:<br>
-                            <input type="radio" name="last_1" value="no" id="last_1" checked>No, no tengo ningún
-                            conocimiento sobre Acústica.<br>
-                            <input type="radio" name="last_1" value="si_poco" id="last_1">Sí, soy/he sido estudiante de
-                            materias relacionadas con la Acústica.<br>
-                            <input type="radio" name="last_1" value="si_mucho" id="last_1">Sí, tengo conocimientos
-                            sólidos sobre Acústica.<br><br><br><br>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <div id="wrapper_next">
-                            <form id="form">
-                                <div class="field" style="display: none;">
-                                    <label for="type">type</label>
-                                    <input type="text" name="type" id="type" placeholder="Sin Tipo">
-                                </div>
-                                <div class="field" style="display: none;">
-                                    <label for="message">message</label>
-                                    <input type="text" name="message" id="message" placeholder="Vacío">
-                                </div>
-                                <div class="field" style="display: none;">
-                                    <label for="reply_to">reply_to</label>
-                                    <input type="text" name="reply_to" id="reply_to"
-                                        placeholder="paisajessonorosTFG@gmail.com">
-                                </div>
 
-                                <input type="submit" id="button" value="Enviar Cuestionario">
-                            </form>
-                            <script type="text/javascript"
-                                src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+                            <h3>3. Nivel de estudios</h3>
+                            <select id="estudios" required>
+                                <option value="">Seleccione una opción</option>
+                                <option value="Sin estudios">Sin estudios</option>
+                                <option value="Educacion_Primaria">Educación primaria</option>
+                                <option value="Educacion_Secundaria">Educación secundaria</option>
+                                <option value="Bachillerato">Bachillerato</option>
+                                <option value="Formacion_Profesional">Formación Profesional</option>
+                                <option value="Estudios_Universitarios">Estudios Universitarios (Grado o Máster)</option>
+                                <option value="Doctorado">Doctorado</option>
+                            </select>
+                            <br><br>
 
-                            <script type="text/javascript">
-                                emailjs.init('JSjVUlg_stgzDtPGm')
-                            </script>
+                            <h3>4. ¿Tiene conocimiento de sufrir problemas de audición de cualquier grado?</h3>
+                            <input type="radio" name="audicion" value="Si" id="aud_s"> Sí<br>
+                            <input type="radio" name="audicion" value="No" id="aud_n"> No<br>
+                            <br>
+
+                            <h3>5. ¿Es el castellano/español su lengua materna?</h3>
+                            <input type="radio" name="castellano" value="Si" id="cast_s"> Sí<br>
+                            <input type="radio" name="castellano" value="No" id="cast_n"> No<br>
+                            <br>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <div id="wrapper_next">
+                            <button id="button_next" onclick="validateDemographics()">Siguiente</button>
                         </div>
                     </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="wrapper" id="screen-audio" style="display: none;">
+        <table>
+            <caption>
+                <h2>Audio <span id="audio-counter">1</span> de 27</h2>
+            </caption>
+            <tbody>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <div id="audio-player-container">
+                            <h3 id="audio-title">Reproduciendo audio...</h3>
+                            <audio id="main-audio" controls>
+                                <source id="audio-source" src="" type="audio/wav">
+                            </audio>
+                            <p><small id="audio-info"></small></p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h3>6. ¿Cuánto le molesta o perturba este sonido?</h3>
+                        <div id="molestia-scale">
+                            <table>
+                                <tr>
+                                    <td><input type="radio" name="molestia" value="0"> 0</td>
+                                    <td><input type="radio" name="molestia" value="1"> 1</td>
+                                    <td><input type="radio" name="molestia" value="2"> 2</td>
+                                    <td><input type="radio" name="molestia" value="3"> 3</td>
+                                    <td><input type="radio" name="molestia" value="4"> 4</td>
+                                    <td><input type="radio" name="molestia" value="5"> 5</td>
+                                    <td><input type="radio" name="molestia" value="6"> 6</td>
+                                    <td><input type="radio" name="molestia" value="7"> 7</td>
+                                    <td><input type="radio" name="molestia" value="8"> 8</td>
+                                    <td><input type="radio" name="molestia" value="9"> 9</td>
+                                    <td><input type="radio" name="molestia" value="10"> 10</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="11" style="text-align: left; font-size: 0.8em;">
+                                        0 = No me molesta en absoluto | 10 = Extremadamente molesto
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h3>8. ¿Qué fuentes sonoras detecta en el sonido presentado?</h3>
+                        <small>(Seleccione todas las que aplique)</small><br>
+                        <input type="checkbox" name="fuentes" value="trafico"> Tráfico motorizado (coches, motos, aviones, etc.)<br>
+                        <input type="checkbox" name="fuentes" value="humano"> Sonidos humanos (voces, risas, pasos)<br>
+                        <input type="checkbox" name="fuentes" value="natural"> Sonidos naturales (pájaros, agua, viento en las hojas)<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h3>9. ¿En qué medida está de acuerdo o en desacuerdo con que este entorno sonoro es...</h3>
+                        <table class="default">
+                            <tr>
+                                <th></th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                            </tr>
+                            <tr>
+                                <th>Agradable</th>
+                                <td><input type="radio" name="afectiva_agradable" value="1"></td>
+                                <td><input type="radio" name="afectiva_agradable" value="2"></td>
+                                <td><input type="radio" name="afectiva_agradable" value="3"></td>
+                                <td><input type="radio" name="afectiva_agradable" value="4"></td>
+                            </tr>
+                            <tr>
+                                <th>Caótico</th>
+                                <td><input type="radio" name="afectiva_caotico" value="1"></td>
+                                <td><input type="radio" name="afectiva_caotico" value="2"></td>
+                                <td><input type="radio" name="afectiva_caotico" value="3"></td>
+                                <td><input type="radio" name="afectiva_caotico" value="4"></td>
+                            </tr>
+                            <tr>
+                                <th>Estimulante</th>
+                                <td><input type="radio" name="afectiva_estimulante" value="1"></td>
+                                <td><input type="radio" name="afectiva_estimulante" value="2"></td>
+                                <td><input type="radio" name="afectiva_estimulante" value="3"></td>
+                                <td><input type="radio" name="afectiva_estimulante" value="4"></td>
+                            </tr>
+                            <tr>
+                                <th>Sin actividad</th>
+                                <td><input type="radio" name="afectiva_sinactividad" value="1"></td>
+                                <td><input type="radio" name="afectiva_sinactividad" value="2"></td>
+                                <td><input type="radio" name="afectiva_sinactividad" value="3"></td>
+                                <td><input type="radio" name="afectiva_sinactividad" value="4"></td>
+                            </tr>
+                            <tr>
+                                <th>Calmado</th>
+                                <td><input type="radio" name="afectiva_calmado" value="1"></td>
+                                <td><input type="radio" name="afectiva_calmado" value="2"></td>
+                                <td><input type="radio" name="afectiva_calmado" value="3"></td>
+                                <td><input type="radio" name="afectiva_calmado" value="4"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" style="text-align: left; font-size: 0.8em;">
+                                    1 = Completamente en desacuerdo | 4 = Completamente de acuerdo
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        <div id="wrapper_next">
+                            <button id="button_next" onclick="submitAudioResponse()">Siguiente Audio</button>
+                        </div>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="wrapper" id="screen-summary" style="display: none;">
+        <table>
+            <caption>
+                <h2>Cuestionario Completado</h2>
+            </caption>
+            <tbody>
+                <tr>
+                    <td>
+                        <p>Gracias por participar en este estudio.</p>
+                        <p>Sus respuestas han sido guardadas correctamente.</p>
+                        <p>Puede cerrar esta ventana.</p>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </body>
-
 </html>
