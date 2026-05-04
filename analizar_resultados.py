@@ -5,17 +5,29 @@ from pathlib import Path
 
 class Analyzer:
     def __init__(self, csv_path):
-        self.df = pd.read_csv(csv_path)
-        self.output_dir = Path(csv_path).parent / 'resultados'
+        self.df = pd.read_csv(r'K:\Universidad\TFG\paisajessonoros\paisajes_sonoros.csv')
+        self.output_dir = Path(r'K:\Universidad\TFG\paisajessonoros\paisajes_sonoros.csv').parent / 'resultados'
         self.output_dir.mkdir(exist_ok=True)
         
     def info_general(self):
         print("=" * 60)
         print("INFORME GENERAL")
         print("=" * 60)
-        print(f"Número de participantes: {self.df['participante_id'].nunique()}")
+        # Soporte para CSV con o sin columna 'participante_id'
+        if 'participante_id' in self.df.columns:
+            num_participantes = self.df['participante_id'].nunique()
+            denom = num_participantes if num_participantes else 1
+        else:
+            # Usar timestamp_inicio si existe para estimar número de participantes
+            if 'timestamp_inicio' in self.df.columns:
+                num_participantes = self.df['timestamp_inicio'].nunique()
+                denom = num_participantes if num_participantes else 1
+            else:
+                num_participantes = len(self.df)
+                denom = 1
+        print(f"Número de participantes: {num_participantes}")
         print(f"Número total de respuestas: {len(self.df)}")
-        print(f"Respuestas por participante: {len(self.df) / self.df['participante_id'].nunique():.1f}")
+        print(f"Respuestas por participante: {len(self.df) / denom:.1f}")
         
         print("\n--- Distribución demográfica ---")
         print("\nEdad:")

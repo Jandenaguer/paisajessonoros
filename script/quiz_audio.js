@@ -10,6 +10,8 @@ const audioFiles = [
 let currentAudioIndex = 0;
 let allResponses = [];
 let quizCompleteTimestamp = '';
+// Persisted CSV content if user imports an existing file to append to
+window._loadedCsvContent = null;
 
 function initializeQuiz() {
     currentAudioIndex = 0;
@@ -164,37 +166,73 @@ function saveToCSV() {
         'afectiva_sinactividad', 'afectiva_calmado', 'afectiva_molesto',
         'afectiva_conactividad', 'afectiva_monotono'
     ];
-    
-    let existingData = [];
-    let csvContent = '';
-    let participantId = generateParticipantId();
-    
-    const csvFile = document.getElementById('csv-file-input');
-    
-    if (csvFile.files.length > 0) {
-        const file = csvFile.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const content = e.target.result;
-            const lines = content.split('\n');
-            
-            if (lines.length > 1) {
-                csvContent = content;
-                const lastParticipantId = findLastParticipantId(content);
-                if (lastParticipantId) {
-                    participantId = lastParticipantId + 1;
-                }
-            } else {
-                csvContent = headers.join(',') + '\n';
-            }
-            
-            appendNewResponses(csvContent, participantId);
-        };
-        reader.readAsText(file);
+
+    // Build the final CSV by appending to an existing loaded CSV when available
+    let finalCsv = '';
+    let baseHeader = headers.join(',') + '\n';
+    if (window._loadedCsvContent && window._loadedCsvContent.trim().length > 0) {
+        finalCsv = window._loadedCsvContent.trimEnd();
+        if (!finalCsv.endsWith('\n')) finalCsv += '\n';
     } else {
-        csvContent = headers.join(',') + '\n';
-        appendNewResponses(csvContent, participantId);
+        finalCsv = baseHeader;
+        // keep baseHeader as first line
     }
+
+    // Determine participantId for this batch (increment from last id in loaded csv if possible)
+    function determineParticipantIdFromCsv(base) {
+        if (!base) return 1;
+        const lines = base.trim().split('\n');
+        for (let i = lines.length - 1; i >= 1; i--) {
+            const first = lines[i].split(',')[0];
+            const n = Number(first);
+            if (!isNaN(n)) return n + 1;
+        }
+        return 1;
+    }
+    const participantId = determineParticipantIdFromCsv(window._loadedCsvContent);
+
+    let newRows = '';
+    for (let response of allResponses) {
+        const row = [
+            participantId,
+            demographicData.timestamp_inicio,
+            response.timestamp_respuesta,
+            quizCompleteTimestamp,
+            demographicData.edad,
+            demographicData.genero,
+            demographicData.estudios,
+            demographicData.audicion,
+            demographicData.castellano,
+            response.audio_index,
+            response.audio_filename,
+            response.mensaje,
+            response.ruido,
+            response.nivel,
+            response.molestia,
+            `"${response.fuentes}"`,
+            response.afectiva_agradable,
+            response.afectiva_caotico,
+            response.afectiva_estimulante,
+            response.afectiva_sinactividad,
+            response.afectiva_calmado,
+            response.afectiva_molesto,
+            response.afectiva_conactividad,
+            response.afectiva_monotono
+        ];
+        newRows += row.join(',') + '\n';
+    }
+    finalCsv += newRows;
+
+    // Download as a fixed filename so it can be replaced by the user in the FS
+    const blob = new Blob([finalCsv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    link.href = URL.createObjectURL(blob);
+    link.download = `paisajes_sonoros.csv`;
+    link.click();
+
+    // Persist in memory for next append
+    window._loadedCsvContent = finalCsv;
 }
 
 function generateParticipantId() {
