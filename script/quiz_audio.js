@@ -167,34 +167,29 @@ function saveToCSV() {
         'afectiva_conactividad', 'afectiva_monotono'
     ];
 
-    // Build the final CSV by appending to an existing loaded CSV when available
-    let finalCsv = '';
-    let baseHeader = headers.join(',') + '\n';
-    if (window._loadedCsvContent && window._loadedCsvContent.trim().length > 0) {
-        finalCsv = window._loadedCsvContent.trimEnd();
-        if (!finalCsv.endsWith('\n')) finalCsv += '\n';
-    } else {
-        finalCsv = baseHeader;
-        // keep baseHeader as first line
+    // Get existing CSV content from localStorage (accumulated across runs) or start fresh
+    let base = typeof window !== 'undefined' ? localStorage.getItem('paisajes_sonoros_csv') || '' : '';
+    if (!base || base.trim() === '') {
+        base = headers.join(',') + '\n';
     }
 
-    // Determine participantId for this batch (increment from last id in loaded csv if possible)
-    function determineParticipantIdFromCsv(base) {
-        if (!base) return 1;
+    // Determine next participante_id by looking at the last line
+    let nextId = 1;
+    if (base && base.trim() !== '') {
         const lines = base.trim().split('\n');
-        for (let i = lines.length - 1; i >= 1; i--) {
-            const first = lines[i].split(',')[0];
-            const n = Number(first);
-            if (!isNaN(n)) return n + 1;
+        if (lines.length > 1) {
+            const lastLine = lines[lines.length - 1];
+            const firstCell = lastLine.split(',')[0];
+            const lastId = parseInt(firstCell, 10);
+            if (!isNaN(lastId)) nextId = lastId + 1;
         }
-        return 1;
     }
-    const participantId = determineParticipantIdFromCsv(window._loadedCsvContent);
 
+    // Build new rows for this survey
     let newRows = '';
     for (let response of allResponses) {
         const row = [
-            participantId,
+            nextId,
             demographicData.timestamp_inicio,
             response.timestamp_respuesta,
             quizCompleteTimestamp,
@@ -221,18 +216,20 @@ function saveToCSV() {
         ];
         newRows += row.join(',') + '\n';
     }
-    finalCsv += newRows;
 
-    // Download as a fixed filename so it can be replaced by the user in the FS
+    const finalCsv = base.trimEnd() + '\n' + newRows.trim();
+    // Save merged CSV to localStorage for subsequent appends
+    localStorage.setItem('paisajes_sonoros_csv', finalCsv);
+    window._loadedCsvContent = finalCsv;
+    localStorage.setItem('paisajes_last_id', String(nextId));
+
+    // Trigger download so you can replace the existing file on disk if desired
     const blob = new Blob([finalCsv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     link.href = URL.createObjectURL(blob);
-    link.download = `paisajes_sonoros.csv`;
+    link.download = 'paisajes_sonoros.csv';
     link.click();
-
-    // Persist in memory for next append
-    window._loadedCsvContent = finalCsv;
 }
 
 function generateParticipantId() {
