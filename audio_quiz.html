@@ -34,7 +34,10 @@
             <tbody>
                 <tr>
                     <td>
-                        <!-- CSV import UI removed: all data will be written to paisajes_sonoros.csv automatically -->
+                        <div id="setup_csv_area" style="margin: 6px;">
+                            <button id="btn_config_csv" onclick="setupCsvDirectory()">Configurar carpeta CSV</button>
+                            <span id="setup_csv_status" style="margin-left: 8px;">No configurada</span>
+                        </div>
                     </td>
                 </tr>
                 <tr>

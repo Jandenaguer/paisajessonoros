@@ -148,88 +148,79 @@ function submitAudioResponse() {
     }
 }
 
-function completeQuiz() {
+async function completeQuiz() {
     quizCompleteTimestamp = new Date().toISOString();
-    saveToCSV();
+    await saveToCSV();
     
     document.getElementById('screen-audio').style.display = 'none';
     document.getElementById('screen-summary').style.display = 'flex';
 }
 
-function saveToCSV() {
-    const headers = [
-        'participante_id', 'timestamp_inicio', 'timestamp_respuesta', 'timestamp_fin',
-        'edad', 'genero', 'estudios', 'audicion', 'castellano',
-        'audio_index', 'audio_filename', 'mensaje', 'ruido', 'nivel',
-        'molestia', 'fuentes',
-        'afectiva_agradable', 'afectiva_caotico', 'afectiva_estimulante', 
-        'afectiva_sinactividad', 'afectiva_calmado', 'afectiva_molesto',
-        'afectiva_conactividad', 'afectiva_monotono'
+async function saveToCSV() {
+  const headers = [
+    'participante_id','timestamp_inicio','timestamp_respuesta','timestamp_fin',
+    'edad','genero','estudios','audicion','castellano',
+    'audio_index','audio_filename','mensaje','ruido','nivel',
+    'molestia','fuentes',
+    'afectiva_agradable','afectiva_caotico','afectiva_estimulante',
+    'afectiva_sinactividad','afectiva_calmado','afectiva_molesto',
+    'afectiva_conactividad','afectiva_monotono'
+  ];
+
+  // Read existing CSV from directory (FS API) if configured
+  let base = '';
+  try { base = await readCsvFromDir(); } catch (e) { base = ''; }
+  if (!base || base.trim() === '') base = headers.join(',') + '\n';
+
+  // Determine next participant_id
+  let nextId = 1;
+  const lines = base.trim().split('\n');
+  if (lines.length > 1) {
+    const last = lines[lines.length - 1];
+    const firstCell = last.split(',')[0];
+    const lastId = Number(firstCell);
+    if (!isNaN(lastId)) nextId = lastId + 1;
+  }
+
+  // Build rows for this survey
+  let newRows = '';
+  for (let response of allResponses) {
+    const row = [
+      nextId++,
+      demographicData.timestamp_inicio,
+      response.timestamp_respuesta,
+      quizCompleteTimestamp,
+      demographicData.edad,
+      demographicData.genero,
+      demographicData.estudios,
+      demographicData.audicion,
+      demographicData.castellano,
+      response.audio_index,
+      response.audio_filename,
+      response.mensaje,
+      response.ruido,
+      response.nivel,
+      response.molestia,
+      `"${response.fuentes}"`,
+      response.afectiva_agradable,
+      response.afectiva_caotico,
+      response.afectiva_estimulante,
+      response.afectiva_sinactividad,
+      response.afectiva_calmado,
+      response.afectiva_molesto,
+      response.afectiva_conactividad,
+      response.afectiva_monotono
     ];
+    newRows += row.join(',') + '\n';
+  }
 
-    // Get existing CSV content from localStorage (accumulated across runs) or start fresh
-    let base = typeof window !== 'undefined' ? localStorage.getItem('paisajes_sonoros_csv') || '' : '';
-    if (!base || base.trim() === '') {
-        base = headers.join(',') + '\n';
-    }
-
-    // Determine next participante_id by looking at the last line
-    let nextId = 1;
-    if (base && base.trim() !== '') {
-        const lines = base.trim().split('\n');
-        if (lines.length > 1) {
-            const lastLine = lines[lines.length - 1];
-            const firstCell = lastLine.split(',')[0];
-            const lastId = parseInt(firstCell, 10);
-            if (!isNaN(lastId)) nextId = lastId + 1;
-        }
-    }
-
-    // Build new rows for this survey
-    let newRows = '';
-    for (let response of allResponses) {
-        const row = [
-            nextId,
-            demographicData.timestamp_inicio,
-            response.timestamp_respuesta,
-            quizCompleteTimestamp,
-            demographicData.edad,
-            demographicData.genero,
-            demographicData.estudios,
-            demographicData.audicion,
-            demographicData.castellano,
-            response.audio_index,
-            response.audio_filename,
-            response.mensaje,
-            response.ruido,
-            response.nivel,
-            response.molestia,
-            `"${response.fuentes}"`,
-            response.afectiva_agradable,
-            response.afectiva_caotico,
-            response.afectiva_estimulante,
-            response.afectiva_sinactividad,
-            response.afectiva_calmado,
-            response.afectiva_molesto,
-            response.afectiva_conactividad,
-            response.afectiva_monotono
-        ];
-        newRows += row.join(',') + '\n';
-    }
-
-    const finalCsv = base.trimEnd() + '\n' + newRows.trim();
-    // Save merged CSV to localStorage for subsequent appends
-    localStorage.setItem('paisajes_sonoros_csv', finalCsv);
-    window._loadedCsvContent = finalCsv;
-    localStorage.setItem('paisajes_last_id', String(nextId));
-
-    // Trigger download so you can replace the existing file on disk if desired
-    const blob = new Blob([finalCsv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'paisajes_sonoros.csv';
-    link.click();
+  const finalContent = base.trimEnd() + '\n' + newRows.trimEnd();
+  // Persist to directory (FS API) if available
+  if (typeof writeCsvToDir === 'function') {
+    await writeCsvToDir(finalContent);
+  }
+  // Also keep in memory for quick access
+  window._loadedCsvContent = finalContent;
 }
 
 function generateParticipantId() {
