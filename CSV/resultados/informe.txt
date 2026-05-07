@@ -1,0 +1,132 @@
+============================================================
+INFORME GENERAL
+============================================================
+Número de participantes: 36
+Número total de respuestas: 36
+Respuestas por participante: 1.0
+
+--- Distribución demográfica ---
+
+Edad:
+edad
+18-25    18
+35-45    18
+Name: count, dtype: int64
+
+Género:
+genero
+Masculino    18
+Femenino     18
+Name: count, dtype: int64
+
+Nivel de estudios:
+estudios
+Bachillerato             18
+Formacion_Profesional    18
+Name: count, dtype: int64
+
+============================================================
+ESTADÍSTICAS DE MOLESTIA (0-10)
+============================================================
+count    36.000000
+mean      6.333333
+std       1.373213
+min       4.000000
+25%       5.000000
+50%       6.000000
+75%       7.000000
+max      10.000000
+Name: molestia, dtype: float64
+
+--- Por tipo de ruido ---
+            mean       std  min  max
+ruido                               
+nature  6.666667  1.497473    5   10
+road    5.916667  1.240112    4    8
+voices  6.416667  1.378954    4    9
+
+--- Por mensaje ---
+              mean       std  min  max
+mensaje                               
+mensaje1  6.333333  1.371989    4    9
+mensaje2  6.333333  1.414214    4   10
+
+--- Por nivel ---
+           mean       std  min  max
+nivel                              
+equal  6.583333  1.311372    5   10
+high   6.583333  1.729862    4    9
+low    5.833333  0.937437    5    7
+
+--- Por combinación ruido x nivel ---
+              mean   std
+ruido  nivel            
+nature equal  7.00  2.00
+       high   7.50  0.58
+       low    5.50  1.00
+road   equal  6.50  1.00
+       high   5.50  1.73
+       low    5.75  0.96
+voices equal  6.25  0.96
+       high   6.75  2.22
+       low    6.25  0.96
+
+============================================================
+ESTADÍSTICAS DE FUENTES SONORAS
+============================================================
+
+Frecuencia de detección de fuentes:
+  trafico: 19 (52.8%)
+  humano: 10 (27.8%)
+  natural: 8 (22.2%)
+
+============================================================
+ESTADÍSTICAS DE PERCEPCIÓN AFECTIVA (1-5)
+============================================================
+
+Agradable:
+  Media: 3.00
+  Std: 1.15
+  Mín: 1, Máx: 5
+
+Caotico:
+  Media: 3.00
+  Std: 0.99
+  Mín: 1, Máx: 5
+
+Estimulante:
+  Media: 3.06
+  Std: 1.04
+  Mín: 1, Máx: 5
+
+Sinactividad:
+  Media: 3.03
+  Std: 0.97
+  Mín: 2, Máx: 5
+
+Calmado:
+  Media: 3.17
+  Std: 1.00
+  Mín: 2, Máx: 5
+
+Molesto:
+  Media: 3.22
+  Std: 0.93
+  Mín: 2, Máx: 5
+
+Conactividad:
+  Media: 3.14
+  Std: 0.96
+  Mín: 2, Máx: 5
+
+Monotono:
+  Media: 2.94
+  Std: 1.12
+  Mín: 1, Máx: 5
+
+--- Por tipo de ruido ---
+        afectiva_agradable  afectiva_caotico  afectiva_estimulante  afectiva_sinactividad  afectiva_calmado  afectiva_molesto  afectiva_conactividad  afectiva_monotono
+ruido                                                                                                                                                                  
+nature                2.67              2.83                  3.00                   2.92              3.08              3.17                   3.00               2.50
+road                  3.17              3.17                  3.17                   3.25              3.25              3.42                   3.33               3.17
+voices                3.17              3.00                  3.00                   2.92              3.17              3.08                   3.08               3.17

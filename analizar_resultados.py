@@ -5,8 +5,8 @@ from pathlib import Path
 
 class Analyzer:
     def __init__(self, csv_path):
-        self.df = pd.read_csv(r'K:\Universidad\TFG\paisajessonoros\paisajes_sonoros.csv')
-        self.output_dir = Path(r'K:\Universidad\TFG\paisajessonoros\paisajes_sonoros.csv').parent / 'resultados'
+        self.df = pd.read_csv(r'K:\Universidad\TFG\paisajessonoros\CSV\paisajes_sonoros.csv')
+        self.output_dir = Path(r'K:\Universidad\TFG\paisajessonoros\CSV\paisajes_sonoros.csv').parent / 'resultados'
         self.output_dir.mkdir(exist_ok=True)
         
     def info_general(self):

@@ -161,7 +161,7 @@ async function saveToCSV() {
     'participante_id','timestamp_inicio','timestamp_respuesta','timestamp_fin',
     'edad','genero','estudios','audicion','castellano',
     'audio_index','audio_filename','mensaje','ruido','nivel',
-    'molestia','fuentes',
+    'molestia','molestia_ref_before','fuentes',
     'afectiva_agradable','afectiva_caotico','afectiva_estimulante',
     'afectiva_sinactividad','afectiva_calmado','afectiva_molesto',
     'afectiva_conactividad','afectiva_monotono'
