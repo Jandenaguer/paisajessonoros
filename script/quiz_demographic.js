@@ -7,6 +7,17 @@ const demographicData = {
     timestamp_inicio: ''
 };
 
+function startCircumplex() {
+    document.getElementById('screen-instructions').style.display = 'none';
+    document.getElementById('screen-circumplex').style.display = 'flex';
+}
+
+function proceedFromCircumplex() {
+    document.getElementById('screen-circumplex').style.display = 'none';
+    document.getElementById('screen-demographics').style.display = 'flex';
+    demographicData.timestamp_inicio = new Date().toISOString();
+}
+
 function startDemographics() {
     document.getElementById('screen-instructions').style.display = 'none';
     document.getElementById('screen-demographics').style.display = 'flex';

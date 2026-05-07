@@ -279,6 +279,7 @@ function appendNewResponses(existingCsv, participantId) {
             response.ruido,
             response.nivel,
             response.molestia,
+            window._molestiaRefBefore || '',
             `"${response.fuentes}"`,
             response.afectiva_agradable,
             response.afectiva_caotico,
