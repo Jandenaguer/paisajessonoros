@@ -49,7 +49,12 @@ function validateDemographics() {
     }
     
     document.getElementById('screen-demographics').style.display = 'none';
-    document.getElementById('screen-audio').style.display = 'flex';
+    document.getElementById('screen-ref-molestia').style.display = 'flex';
     
-    initializeQuiz();
+    // Cargar audio de referencia (pendiente de determinar)
+    const audioRef = document.getElementById('audio_ref_molestia');
+    const sourceRef = document.getElementById('audio_ref_molestia_source');
+    // TODO: Cambiar por la ruta correcta cuando se determine
+    sourceRef.src = './resources/examples/Annoying/Molesto.wav';
+    audioRef.load();
 }

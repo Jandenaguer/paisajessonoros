@@ -156,6 +156,28 @@ async function completeQuiz() {
     document.getElementById('screen-summary').style.display = 'flex';
 }
 
+// Nueva función: Proceder al cuestionario despues de la molestia de referencia
+window.proceedToAudioQuiz = function() {
+    const refSelected = document.querySelector('input[name="molestia_ref_before"]:checked');
+    if (!refSelected) {
+        alert('Por favor, indique la molestia del audio de referencia (pregunta 6.a).');
+        return;
+    }
+    // Guardar respuesta de referencia para usarla en cada fila de este participante
+    window._molestiaRefBefore = refSelected.value;
+    
+    document.getElementById('screen-ref-molestia').style.display = 'none';
+    document.getElementById('screen-audio').style.display = 'flex';
+    initializeQuiz();
+}
+
+function initializeQuiz() {
+    currentAudioIndex = 0;
+    allResponses = [];
+    // Reiniciar también la respuesta de referencia para este participante
+    loadAudio(currentAudioIndex);
+}
+
 async function saveToCSV() {
   const headers = [
     'participante_id','timestamp_inicio','timestamp_respuesta','timestamp_fin',
@@ -201,6 +223,7 @@ async function saveToCSV() {
       response.ruido,
       response.nivel,
       response.molestia,
+      window._molestiaRefBefore || '',
       `"${response.fuentes}"`,
       response.afectiva_agradable,
       response.afectiva_caotico,
