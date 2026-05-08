@@ -54,10 +54,17 @@
                 </tr>
                 <tr>
                     <td>
-                        <h3><strong>Consentimiento Informado</strong></h3>
-                        <p>Este cuestionario forma parte de un estudio de investigación sobre percepción de paisajes sonoros. 
-                        Los datos recopilados se utilizarán exclusivamente para fines académicos. 
-                        Sus respuestas son anónimas y se almacenarán de forma segura.</p>
+                        <div style="padding: 10px; border: 1px solid #555; border-radius: 5px; margin-top: 10px;">
+                            <h4 style="margin-bottom: 8px;">Guardado de datos (opcional)</h4>
+                            <p style="font-size: 0.9em; margin-bottom: 8px;">
+                                Si configura una carpeta, las respuestas se añadirán automáticamente al CSV en esa carpeta.<br>
+                                Si no, el CSV se descargará al finalizar el cuestionario.
+                            </p>
+                            <button onclick="setupCsvDirectory()" style="font-size: 0.85em; padding: 6px 14px;">
+                                Configurar carpeta CSV
+                            </button>
+                            <span id="setup_csv_status" style="margin-left: 10px; font-size: 0.85em; color: #2ecc71;"></span>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -407,8 +414,11 @@
                 <tr>
                     <td>
                         <p>Gracias por participar en este estudio.</p>
-                        <p>Sus respuestas han sido guardadas correctamente.</p>
+                        <p id="csv-save-status" style="font-weight: bold;"></p>
                         <p>Puede cerrar esta ventana.</p>
+                        <button onclick="downloadCsvBlob(window._loadedCsvContent)" style="font-size: 0.85em; padding: 6px 14px; margin-top: 10px;">
+                            Descargar CSV manualmente
+                        </button>
                     </td>
                 </tr>
             </tbody>

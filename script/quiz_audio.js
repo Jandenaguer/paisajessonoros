@@ -150,10 +150,22 @@ function submitAudioResponse() {
 
 async function completeQuiz() {
     quizCompleteTimestamp = new Date().toISOString();
-    await saveToCSV();
+    const savedToDir = await saveToCSV();
     
     document.getElementById('screen-audio').style.display = 'none';
     document.getElementById('screen-summary').style.display = 'flex';
+
+    // Mostrar estado de guardado en la pantalla de resumen
+    const statusEl = document.getElementById('csv-save-status');
+    if (statusEl) {
+        if (savedToDir) {
+            statusEl.textContent = 'Datos guardados en el archivo CSV de la carpeta configurada.';
+            statusEl.style.color = '#2ecc71';
+        } else {
+            statusEl.textContent = 'Se ha descargado el archivo CSV con sus respuestas.';
+            statusEl.style.color = '#f39c12';
+        }
+    }
 }
 
 // Nueva función: Proceder al cuestionario despues de la molestia de referencia
@@ -189,12 +201,18 @@ async function saveToCSV() {
     'afectiva_conactividad','afectiva_monotono'
   ];
 
-  // Read existing CSV from directory (FS API) if configured
+  // Intentar leer CSV existente desde la carpeta configurada (FS API)
   let base = '';
-  try { base = await readCsvFromDir(); } catch (e) { base = ''; }
+  let hasDirHandle = false;
+  try {
+    base = await readCsvFromDir();
+    if (base && base.trim() !== '') hasDirHandle = true;
+  } catch (e) { base = ''; }
+
+  // Si no hay contenido previo, empezar con la cabecera
   if (!base || base.trim() === '') base = headers.join(',') + '\n';
 
-  // Determine next participant_id
+  // Calcular el siguiente participante_id
   let nextId = 1;
   const lines = base.trim().split('\n');
   if (lines.length > 1) {
@@ -204,7 +222,7 @@ async function saveToCSV() {
     if (!isNaN(lastId)) nextId = lastId + 1;
   }
 
-  // Build rows for this survey
+  // Construir las filas de este participante
   let newRows = '';
   for (let response of allResponses) {
     const row = [
@@ -238,12 +256,34 @@ async function saveToCSV() {
   }
 
   const finalContent = base.trimEnd() + '\n' + newRows.trimEnd();
-  // Persist to directory (FS API) if available
-  if (typeof writeCsvToDir === 'function') {
-    await writeCsvToDir(finalContent);
-  }
-  // Also keep in memory for quick access
   window._loadedCsvContent = finalContent;
+
+  // Intentar guardar en la carpeta configurada (FS API)
+  if (window._dirHandle && typeof writeCsvToDir === 'function') {
+    try {
+      await writeCsvToDir(finalContent);
+      console.log('CSV guardado en carpeta configurada.');
+      return true; // guardado en directorio
+    } catch (e) {
+      console.warn('No se pudo escribir en directorio, descargando como fallback:', e);
+    }
+  }
+
+  // Fallback: descarga directa como archivo
+  downloadCsvBlob(finalContent);
+  return false; // descarga directa
+}
+
+function downloadCsvBlob(content) {
+  const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  link.href = URL.createObjectURL(blob);
+  link.download = `paisajes_sonoros_${timestamp}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(link.href);
 }
 
 function generateParticipantId() {
