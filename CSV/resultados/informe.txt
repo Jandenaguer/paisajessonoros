@@ -1,13 +1,13 @@
 ============================================================
 INFORME GENERAL
 ============================================================
-Participantes:          18
-Total de respuestas:    18
-Respuestas/participante:1.0
+Participantes:           18
+Total respuestas:        18
+Respuestas/participante: 1.0
 
-Molestia audio referencia (media por participante): 5.00  (std=0.00, min=5, max=5)
+Molestia referencia — media: 5.00 std: 0.00  [5–5]
 
---- Distribucion demografica ---
+--- Demografia ---
 
 Edad:
 edad
@@ -17,7 +17,7 @@ Genero:
 genero
 Masculino    18
 
-Nivel de estudios:
+Estudios:
 estudios
 Bachillerato    18
 
@@ -25,7 +25,7 @@ Bachillerato    18
 ESTADISTICAS DE MOLESTIA (0-10)
 ============================================================
 
-[Audio de referencia] (una puntuacion por participante)
+[Audio referencia]
 count    18.0
 mean      5.0
 std       0.0
@@ -35,7 +35,7 @@ min       5.0
 75%       5.0
 max       5.0
 
-[Audios del experimento] (18 respuestas por participante)
+[Audios experimento]
 count    18.00
 mean      6.00
 std       1.08
@@ -45,7 +45,7 @@ min       4.00
 75%       6.00
 max       9.00
 
---- Por tipo de ruido ---
+--- Por ruido ---
         mean   std  min  max
 ruido                       
 nature  5.50  0.84    4    6
@@ -65,7 +65,7 @@ equal  6.33  1.75    4    9
 high   5.67  0.52    5    6
 low    6.00  0.63    5    7
 
---- Por combinacion ruido x nivel ---
+--- Ruido x Nivel ---
               mean   std
 ruido  nivel            
 nature equal   5.0  1.41
@@ -82,22 +82,21 @@ voices equal   7.0  2.83
 COMPARACION CON AUDIO DE REFERENCIA
 ============================================================
 
-Molestia media audio referencia : 5.00
-Molestia media audios experimento: 6.00
-Diferencia (exp - ref)           : +1.00
+Molestia media referencia : 5.00
+Molestia media experimento: 6.00
+Diferencia (exp - ref)    : +1.00
 
-[AVISO] Todos los participantes asignaron el mismo valor de referencia; no es posible calcular correlacion de Pearson.
+[AVISO] Todos los participantes tienen el mismo valor de referencia; Pearson no calculable.
 
-T-test pareado (ref vs media experimento): t=-3.912, p=0.0011
-  -> Diferencia estadisticamente significativa (p<0.05)
+T-test pareado: t=-3.912, p=0.0011
+  -> Diferencia significativa (p<0.05)
 
---- Molestia media por ruido vs. referencia ---
-  Referencia: 5.00
-  nature    : 5.50  (dif=+0.50)
-  road      : 6.33  (dif=+1.33)
-  voices    : 6.17  (dif=+1.17)
+--- Por ruido vs referencia ---
+  Trafico     : 6.33  (dif=+1.33)
+  Voces       : 6.17  (dif=+1.17)
+  Naturaleza  : 5.50  (dif=+0.50)
 
---- Molestia media por nivel vs. referencia ---
+--- Por nivel vs referencia ---
   low     : 6.00  (dif=+1.00)
   equal   : 6.33  (dif=+1.33)
   high    : 5.67  (dif=+0.67)
@@ -105,7 +104,6 @@ T-test pareado (ref vs media experimento): t=-3.912, p=0.0011
 ============================================================
 ESTADISTICAS DE FUENTES SONORAS
 ============================================================
-
   trafico     :   10  (55.6%)
   humano      :    6  (33.3%)
   natural     :    5  (27.8%)
@@ -113,16 +111,16 @@ ESTADISTICAS DE FUENTES SONORAS
 ============================================================
 ESTADISTICAS DE PERCEPCION AFECTIVA (1-5)
 ============================================================
-  Agradable      : media=2.17  std=0.38  [2-3]
-  Caotico        : media=2.67  std=0.49  [2-3]
-  Estimulante    : media=2.61  std=0.70  [2-4]
-  Sin actividad  : media=2.89  std=0.47  [2-4]
-  Calmado        : media=2.56  std=0.51  [2-3]
-  Molesto        : media=2.67  std=0.49  [2-3]
-  Con actividad  : media=2.61  std=0.50  [2-3]
-  Monotono       : media=2.89  std=0.32  [2-3]
+  Agradable      : media=2.17  std=0.38  [2–3]
+  Caotico        : media=2.67  std=0.49  [2–3]
+  Estimulante    : media=2.61  std=0.70  [2–4]
+  Sin actividad  : media=2.89  std=0.47  [2–4]
+  Calmado        : media=2.56  std=0.51  [2–3]
+  Molesto        : media=2.67  std=0.49  [2–3]
+  Con actividad  : media=2.61  std=0.50  [2–3]
+  Monotono       : media=2.89  std=0.32  [2–3]
 
---- Por tipo de ruido ---
+--- Por ruido ---
         afectiva_agradable  afectiva_caotico  afectiva_estimulante  afectiva_sinactividad  afectiva_calmado  afectiva_molesto  afectiva_conactividad  afectiva_monotono
 ruido                                                                                                                                                                  
 nature                2.17              2.83                  2.83                   3.17              2.83              2.83                   2.83               3.00
