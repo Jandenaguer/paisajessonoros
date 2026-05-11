@@ -5,8 +5,6 @@ Participantes:           18
 Total respuestas:        18
 Respuestas/participante: 1.0
 
-Molestia referencia — media: 5.00 std: 0.00  [5–5]
-
 --- Demografia ---
 
 Edad:
@@ -24,16 +22,6 @@ Bachillerato    18
 ============================================================
 ESTADISTICAS DE MOLESTIA (0-10)
 ============================================================
-
-[Audio referencia]
-count    18.0
-mean      5.0
-std       0.0
-min       5.0
-25%       5.0
-50%       5.0
-75%       5.0
-max       5.0
 
 [Audios experimento]
 count    18.00
@@ -77,29 +65,6 @@ road   equal   7.0  0.00
 voices equal   7.0  2.83
        high    5.5  0.71
        low     6.0  0.00
-
-============================================================
-COMPARACION CON AUDIO DE REFERENCIA
-============================================================
-
-Molestia media referencia : 5.00
-Molestia media experimento: 6.00
-Diferencia (exp - ref)    : +1.00
-
-[AVISO] Todos los participantes tienen el mismo valor de referencia; Pearson no calculable.
-
-T-test pareado: t=-3.912, p=0.0011
-  -> Diferencia significativa (p<0.05)
-
---- Por ruido vs referencia ---
-  Trafico     : 6.33  (dif=+1.33)
-  Voces       : 6.17  (dif=+1.17)
-  Naturaleza  : 5.50  (dif=+0.50)
-
---- Por nivel vs referencia ---
-  low     : 6.00  (dif=+1.00)
-  equal   : 6.33  (dif=+1.33)
-  high    : 5.67  (dif=+0.67)
 
 ============================================================
 ESTADISTICAS DE FUENTES SONORAS

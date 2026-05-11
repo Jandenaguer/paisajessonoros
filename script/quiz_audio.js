@@ -1,3 +1,65 @@
+// ── Audios de referencia (evaluación de molestia previa) ──────────────────────
+const refAudioFiles = [
+    'ref_28.wav', 'ref_32.wav', 'ref_36.wav', 'ref_40.wav', 'ref_44.wav',
+    'ref_48.wav', 'ref_52.wav', 'ref_56.wav', 'ref_60.wav'
+];
+let currentRefIndex = 0;
+const refResponses = [];   // [{file, value}, …]  — 9 entradas al finalizar
+
+// Carga el audio de referencia indicado por currentRefIndex
+function loadRefAudio(index) {
+    const src    = document.getElementById('audio_ref_molestia_source');
+    const player = document.getElementById('audio_ref_molestia');
+    const counter = document.getElementById('ref-counter');
+    const bar     = document.getElementById('ref-progress-bar');
+    const pct     = document.getElementById('ref-progress-pct');
+    const btn     = document.getElementById('button_next');
+
+    src.src = `./resources/ref/${refAudioFiles[index]}`;
+    player.load();
+
+    const n = refAudioFiles.length;
+    const progress = Math.round(((index + 1) / n) * 100);
+    if (counter) counter.textContent = index + 1;
+    if (bar)     bar.style.width = progress + '%';
+    if (pct)     pct.textContent = progress + '%';
+
+    // Último audio → cambiar texto del botón
+    if (btn) btn.textContent = (index === n - 1) ? 'Comenzar Cuestionario' : 'Siguiente';
+
+    // Limpiar selección anterior
+    document.getElementsByName('molestia_ref_current')
+            .forEach(r => r.checked = false);
+}
+
+// Avanzar al siguiente audio de referencia (o pasar al cuestionario)
+window.nextRefAudio = function () {
+    const selected = document.querySelector('input[name="molestia_ref_current"]:checked');
+    if (!selected) {
+        alert('Por favor, indique el nivel de molestia antes de continuar.');
+        return;
+    }
+
+    refResponses.push({
+        file:  refAudioFiles[currentRefIndex],
+        value: selected.value
+    });
+
+    currentRefIndex++;
+
+    if (currentRefIndex < refAudioFiles.length) {
+        loadRefAudio(currentRefIndex);
+    } else {
+        // Guardar en window para usarlo al construir el CSV
+        window._refResponses = refResponses;
+
+        document.getElementById('screen-ref-molestia').style.display = 'none';
+        document.getElementById('screen-audio').style.display = 'flex';
+        initializeQuiz();
+    }
+};
+
+// ── Audios del experimento ────────────────────────────────────────────────────
 const audioFiles = [
     'mensaje1_road_equal_hrtf.wav', 'mensaje1_road_low_hrtf.wav', 'mensaje1_road_high_hrtf.wav',
     'mensaje1_voices_equal_hrtf.wav', 'mensaje1_voices_low_hrtf.wav', 'mensaje1_voices_high_hrtf.wav',
@@ -191,11 +253,16 @@ function initializeQuiz() {
 }
 
 async function saveToCSV() {
+  // Columnas de referencia dinámicas: ref_28, ref_32, … ref_60
+  const refHeaders = refAudioFiles.map(f => 'ref_' + f.replace('.wav',''));
+
   const headers = [
     'participante_id','timestamp_inicio','timestamp_respuesta','timestamp_fin',
     'edad','genero','estudios','audicion','castellano',
     'audio_index','audio_filename','mensaje','ruido','nivel',
-    'molestia','molestia_ref_before','fuentes',
+    'molestia',
+    ...refHeaders,
+    'fuentes',
     'afectiva_agradable','afectiva_caotico','afectiva_estimulante',
     'afectiva_sinactividad','afectiva_calmado','afectiva_molesto',
     'afectiva_conactividad','afectiva_monotono'
@@ -222,6 +289,13 @@ async function saveToCSV() {
     if (!isNaN(lastId)) nextId = lastId + 1;
   }
 
+  // Valores de referencia (uno por archivo, en orden)
+  const refVals = refAudioFiles.map((f, i) =>
+    (window._refResponses && window._refResponses[i])
+      ? window._refResponses[i].value
+      : ''
+  );
+
   // Construir las filas de este participante
   let newRows = '';
   for (let response of allResponses) {
@@ -241,7 +315,7 @@ async function saveToCSV() {
       response.ruido,
       response.nivel,
       response.molestia,
-      window._molestiaRefBefore || '',
+      ...refVals,
       `"${response.fuentes}"`,
       response.afectiva_agradable,
       response.afectiva_caotico,
@@ -300,8 +374,13 @@ function findLastParticipantId(content) {
 }
 
 function appendNewResponses(existingCsv, participantId) {
+    const refVals = refAudioFiles.map((f, i) =>
+        (window._refResponses && window._refResponses[i])
+            ? window._refResponses[i].value
+            : ''
+    );
+
     let newRows = '';
-    
     for (let response of allResponses) {
         const row = [
             participantId,
@@ -319,7 +398,7 @@ function appendNewResponses(existingCsv, participantId) {
             response.ruido,
             response.nivel,
             response.molestia,
-            window._molestiaRefBefore || '',
+            ...refVals,
             `"${response.fuentes}"`,
             response.afectiva_agradable,
             response.afectiva_caotico,

@@ -61,11 +61,10 @@ function validateDemographics() {
     
     document.getElementById('screen-demographics').style.display = 'none';
     document.getElementById('screen-ref-molestia').style.display = 'flex';
-    
-    // Cargar audio de referencia (pendiente de determinar)
-    const audioRef = document.getElementById('audio_ref_molestia');
-    const sourceRef = document.getElementById('audio_ref_molestia_source');
-    // TODO: Cambiar por la ruta correcta cuando se determine
-    sourceRef.src = './resources/examples/Annoying/Molesto.wav';
-    audioRef.load();
+
+    // Inicializar la secuencia de 9 audios de referencia
+    currentRefIndex = 0;
+    refResponses.length = 0;
+    window._refResponses = null;
+    loadRefAudio(0);
 }

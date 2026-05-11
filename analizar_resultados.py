@@ -65,9 +65,12 @@ class Analyzer:
 
         # Tipos numéricos
         self.df['molestia'] = pd.to_numeric(self.df['molestia'], errors='coerce')
-        if 'molestia_ref_before' in self.df.columns:
-            self.df['molestia_ref_before'] = pd.to_numeric(
-                self.df['molestia_ref_before'], errors='coerce')
+
+        # Columnas de referencia: ref_28, ref_32, … ref_60
+        self.ref_cols = sorted([c for c in self.df.columns if c.startswith('ref_')])
+        self.ref_niveles = [int(c.replace('ref_', '')) for c in self.ref_cols]
+        for col in self.ref_cols:
+            self.df[col] = pd.to_numeric(self.df[col], errors='coerce')
 
         self.afectivas = [
             'afectiva_agradable', 'afectiva_caotico', 'afectiva_estimulante',
@@ -110,12 +113,11 @@ class Analyzer:
         print(f'Total respuestas:        {len(self.df)}')
         print(f'Respuestas/participante: {len(self.df)/denom:.1f}')
 
-        if 'molestia_ref_before' in self.df.columns:
-            ref = self.df_part['molestia_ref_before'].dropna()
-            if len(ref):
-                print(f'\nMolestia referencia — media: {ref.mean():.2f} '
-                      f'std: {ref.std():.2f}  '
-                      f'[{ref.min():.0f}–{ref.max():.0f}]')
+        if self.ref_cols:
+            print(f'\nAudios referencia evaluados: {len(self.ref_cols)} '
+                  f'({", ".join(self.ref_cols)})')
+            medias_ref = self.df_part[self.ref_cols].mean()
+            print(f'  Media global ref: {medias_ref.mean():.2f}')
 
         print('\n--- Demografia ---')
         for col, label in [('edad','Edad'), ('genero','Genero'),
@@ -132,11 +134,13 @@ class Analyzer:
         print('ESTADISTICAS DE MOLESTIA (0-10)')
         print('=' * 60)
 
-        if 'molestia_ref_before' in self.df.columns:
-            ref = self.df_part['molestia_ref_before'].dropna()
-            if len(ref):
-                print('\n[Audio referencia]')
-                print(ref.describe().round(2).to_string())
+        if self.ref_cols:
+            print('\n[Audios referencia — media por nivel dB]')
+            for col, nivel in zip(self.ref_cols, self.ref_niveles):
+                vals = self.df_part[col].dropna()
+                if len(vals):
+                    print(f'  {nivel} dB: media={vals.mean():.2f}  '
+                          f'std={vals.std():.2f}  [{vals.min():.0f}–{vals.max():.0f}]')
 
         print('\n[Audios experimento]')
         print(self.df['molestia'].describe().round(2).to_string())
@@ -155,52 +159,58 @@ class Analyzer:
     # 3. COMPARACIÓN CON REFERENCIA (texto)
     # ==========================================================================
     def comparacion_referencia(self):
-        if 'molestia_ref_before' not in self.df.columns:
-            return
-        ref_vals = self.df_part['molestia_ref_before'].dropna()
-        if not len(ref_vals):
+        if not self.ref_cols:
             return
 
         print('\n' + '=' * 60)
-        print('COMPARACION CON AUDIO DE REFERENCIA')
+        print('COMPARACION CON AUDIOS DE REFERENCIA')
         print('=' * 60)
 
-        media_ref = ref_vals.mean()
-        media_exp = self.df['molestia'].mean()
-        print(f'\nMolestia media referencia : {media_ref:.2f}')
-        print(f'Molestia media experimento: {media_exp:.2f}')
-        print(f'Diferencia (exp - ref)    : {media_exp - media_ref:+.2f}')
+        # Media global de referencia (todos los niveles, todos los participantes)
+        ref_global = self.df_part[self.ref_cols].mean(axis=1).mean()
+        media_exp  = self.df['molestia'].mean()
+        print(f'\nMolestia media referencia (global): {ref_global:.2f}')
+        print(f'Molestia media experimento        : {media_exp:.2f}')
+        print(f'Diferencia (exp - ref)            : {media_exp - ref_global:+.2f}')
 
-        media_pp = self.df.groupby(self.id_col)['molestia'].mean()
-        df_c = self.df_part.set_index(self.id_col)[['molestia_ref_before']]\
-                   .join(media_pp).dropna()
+        # Evolución de la molestia a lo largo de los 9 niveles
+        print('\n--- Curva de molestia de referencia por nivel (dB SPL) ---')
+        for col, nivel in zip(self.ref_cols, self.ref_niveles):
+            vals = self.df_part[col].dropna()
+            if len(vals):
+                print(f'  {nivel:>3} dB: {vals.mean():.2f}')
+
+        # Correlación entre molestia de referencia media (por participante)
+        # y molestia media en el experimento
+        media_pp  = self.df.groupby(self.id_col)['molestia'].mean()
+        media_ref_pp = self.df_part.set_index(self.id_col)[self.ref_cols]\
+                           .mean(axis=1).rename('ref_media')
+        df_c = media_ref_pp.to_frame().join(media_pp).dropna()
         df_c.columns = ['ref', 'exp']
 
         if len(df_c) >= 3:
             if df_c['ref'].nunique() > 1:
                 r, p = scipy_stats.pearsonr(df_c['ref'], df_c['exp'])
-                print(f'\nCorrelacion Pearson: r={r:.3f}, p={p:.4f}')
+                print(f'\nCorrelacion Pearson (ref vs exp por participante): '
+                      f'r={r:.3f}, p={p:.4f}')
                 print('  -> Significativa (p<0.05)' if p < 0.05
                       else '  -> No significativa')
-            else:
-                print('\n[AVISO] Todos los participantes tienen el mismo valor '
-                      'de referencia; Pearson no calculable.')
             t, pt = scipy_stats.ttest_rel(df_c['ref'], df_c['exp'])
-            print(f'\nT-test pareado: t={t:.3f}, p={pt:.4f}')
+            print(f'T-test pareado: t={t:.3f}, p={pt:.4f}')
             print('  -> Diferencia significativa (p<0.05)' if pt < 0.05
                   else '  -> Sin diferencia significativa')
         else:
-            print('\n[AVISO] Se necesitan ≥3 participantes para test estadísticos.')
+            print('\n[AVISO] Se necesitan >=3 participantes para test estadisticos.')
 
-        print('\n--- Por ruido vs referencia ---')
+        print('\n--- Molestia experimento vs referencia global por ruido ---')
         for ruido in ['road', 'voices', 'nature']:
             m = self.df[self.df['ruido'] == ruido]['molestia'].mean()
-            print(f'  {RUIDO_LABEL[ruido]:<12}: {m:.2f}  (dif={m-media_ref:+.2f})')
+            print(f'  {RUIDO_LABEL[ruido]:<12}: {m:.2f}  (dif={m-ref_global:+.2f})')
 
-        print('\n--- Por nivel vs referencia ---')
+        print('\n--- Molestia experimento vs referencia global por nivel ---')
         for nivel in NIVEL_ORDER:
             m = self.df[self.df['nivel'] == nivel]['molestia'].mean()
-            print(f'  {nivel:<8}: {m:.2f}  (dif={m-media_ref:+.2f})')
+            print(f'  {nivel:<8}: {m:.2f}  (dif={m-ref_global:+.2f})')
 
     # ==========================================================================
     # 4. FUENTES SONORAS (texto)
@@ -386,9 +396,8 @@ class Analyzer:
     # 8. GRÁFICAS MOLESTIA + REFERENCIA
     # ==========================================================================
     def grafico_molestia(self):
-        has_ref = ('molestia_ref_before' in self.df.columns and
-                   self.df_part['molestia_ref_before'].dropna().size > 0)
-        ref_mean = self.df_part['molestia_ref_before'].dropna().mean() \
+        has_ref  = bool(self.ref_cols)
+        ref_mean = self.df_part[self.ref_cols].mean(axis=1).mean() \
                    if has_ref else None
 
         fig, axes = plt.subplots(1, 3, figsize=(16, 5))
@@ -428,82 +437,117 @@ class Analyzer:
         self._save(fig, 'molestia_resumen.png')
 
     def grafico_comparacion_referencia(self):
-        if 'molestia_ref_before' not in self.df.columns:
-            return
-        ref_vals = self.df_part['molestia_ref_before'].dropna()
-        if not len(ref_vals):
+        if not self.ref_cols:
             return
 
-        ref_mean = ref_vals.mean()
-        has_multi = len(ref_vals) >= 2
+        ref_global = self.df_part[self.ref_cols].mean(axis=1).mean()
 
-        ncols = 3 if has_multi else 2
-        fig, axes = plt.subplots(1, ncols, figsize=(6*ncols, 5))
+        fig = plt.figure(figsize=(18, 10))
+        gs  = gridspec.GridSpec(2, 3, figure=fig, hspace=0.45, wspace=0.35)
 
-        # Panel 1 — por ruido
-        ax = axes[0]
-        ruidos  = ['road', 'voices', 'nature']
-        etqs    = [RUIDO_LABEL[r] for r in ruidos]
-        medias  = [self.df[self.df['ruido']==r]['molestia'].mean() for r in ruidos]
-        colors  = [COLOR_ROAD, COLOR_VOICES, COLOR_NATURE]
-        bars = ax.bar(etqs, medias, color=colors, edgecolor='white')
-        ax.axhline(ref_mean, color=COLOR_REF, linestyle='--', linewidth=2,
-                   label=f'Referencia ({ref_mean:.2f})')
-        ax.set_ylim(0, 10.5)
-        ax.set_title('Por ruido vs referencia')
-        ax.set_ylabel('Molestia (0–10)')
-        ax.legend(fontsize=8)
-        ax.grid(axis='y', alpha=0.3)
+        # ── Panel 1 (fila 0, col 0-1): curva de molestia de referencia ───
+        ax_curva = fig.add_subplot(gs[0, :2])
+        medias_nivel = [self.df_part[c].dropna().mean() for c in self.ref_cols]
+        stds_nivel   = [self.df_part[c].dropna().std()  for c in self.ref_cols]
+        niveles      = self.ref_niveles
+
+        ax_curva.plot(niveles, medias_nivel, marker='o', color='#3498db',
+                      linewidth=2, markersize=7, label='Media participantes')
+        ax_curva.fill_between(
+            niveles,
+            [m - s for m, s in zip(medias_nivel, stds_nivel)],
+            [m + s for m, s in zip(medias_nivel, stds_nivel)],
+            alpha=0.18, color='#3498db', label='±1 std'
+        )
+        ax_curva.axhline(ref_global, color=COLOR_REF, linestyle='--',
+                         linewidth=1.5, label=f'Media global ref: {ref_global:.2f}')
+        ax_curva.set_xlabel('Nivel de presion sonora (dB SPL)', fontsize=10)
+        ax_curva.set_ylabel('Molestia (0-10)', fontsize=10)
+        ax_curva.set_title('Curva de molestia de referencia por nivel', fontsize=11)
+        ax_curva.set_xticks(niveles)
+        ax_curva.set_ylim(0, 10.5)
+        ax_curva.grid(alpha=0.3)
+        ax_curva.legend(fontsize=9)
+
+        # ── Panel 2 (fila 0, col 2): por participante (heatmap) ──────────
+        ax_heat = fig.add_subplot(gs[0, 2])
+        mat = self.df_part[self.ref_cols].values.astype(float)
+        if mat.shape[0] > 0:
+            im = ax_heat.imshow(mat, aspect='auto', cmap='RdYlGn_r',
+                                vmin=0, vmax=10,
+                                extent=[niveles[0]-2, niveles[-1]+2, 0, mat.shape[0]])
+            ax_heat.set_xlabel('Nivel (dB SPL)', fontsize=9)
+            ax_heat.set_ylabel('Participante', fontsize=9)
+            ax_heat.set_title('Molestia ref. por participante\n(verde=baja, rojo=alta)',
+                               fontsize=10)
+            ax_heat.set_xticks(niveles)
+            ax_heat.tick_params(axis='x', labelsize=8)
+            plt.colorbar(im, ax=ax_heat, label='Molestia')
+
+        # ── Panel 3 (fila 1, col 0): ruido vs referencia ─────────────────
+        ax_ruido = fig.add_subplot(gs[1, 0])
+        ruidos = ['road', 'voices', 'nature']
+        etqs   = [RUIDO_LABEL[r] for r in ruidos]
+        medias = [self.df[self.df['ruido']==r]['molestia'].mean() for r in ruidos]
+        bars = ax_ruido.bar(etqs, medias,
+                            color=[COLOR_ROAD, COLOR_VOICES, COLOR_NATURE],
+                            edgecolor='white')
+        ax_ruido.axhline(ref_global, color=COLOR_REF, linestyle='--',
+                         linewidth=1.8, label=f'Ref global: {ref_global:.2f}')
+        ax_ruido.set_ylim(0, 10.5)
+        ax_ruido.set_title('Experimento por ruido\nvs. referencia global', fontsize=10)
+        ax_ruido.set_ylabel('Molestia (0-10)')
+        ax_ruido.legend(fontsize=8)
+        ax_ruido.grid(axis='y', alpha=0.3)
         for b, v in zip(bars, medias):
             if not np.isnan(v):
-                ax.text(b.get_x() + b.get_width()/2, v + 0.15,
-                        f'{v:.2f}', ha='center', fontsize=9)
+                ax_ruido.text(b.get_x()+b.get_width()/2, v+0.15,
+                              f'{v:.2f}', ha='center', fontsize=9)
 
-        # Panel 2 — por nivel
-        ax = axes[1]
+        # ── Panel 4 (fila 1, col 1): nivel vs referencia ─────────────────
+        ax_nivel = fig.add_subplot(gs[1, 1])
         medias_n = [self.df[self.df['nivel']==n]['molestia'].mean()
                     for n in NIVEL_ORDER]
-        bars2 = ax.bar(NIVEL_LABEL, medias_n,
-                       color=[COLOR_LOW, COLOR_EQUAL, COLOR_HIGH],
-                       edgecolor='white')
-        ax.axhline(ref_mean, color=COLOR_REF, linestyle='--', linewidth=2,
-                   label=f'Referencia ({ref_mean:.2f})')
-        ax.set_ylim(0, 10.5)
-        ax.set_title('Por nivel vs referencia')
-        ax.set_ylabel('Molestia (0–10)')
-        ax.legend(fontsize=8)
-        ax.grid(axis='y', alpha=0.3)
+        bars2 = ax_nivel.bar(NIVEL_LABEL, medias_n,
+                             color=[COLOR_LOW, COLOR_EQUAL, COLOR_HIGH],
+                             edgecolor='white')
+        ax_nivel.axhline(ref_global, color=COLOR_REF, linestyle='--',
+                         linewidth=1.8, label=f'Ref global: {ref_global:.2f}')
+        ax_nivel.set_ylim(0, 10.5)
+        ax_nivel.set_title('Experimento por nivel\nvs. referencia global', fontsize=10)
+        ax_nivel.set_ylabel('Molestia (0-10)')
+        ax_nivel.legend(fontsize=8)
+        ax_nivel.grid(axis='y', alpha=0.3)
         for b, v in zip(bars2, medias_n):
             if not np.isnan(v):
-                ax.text(b.get_x() + b.get_width()/2, v + 0.15,
-                        f'{v:.2f}', ha='center', fontsize=9)
+                ax_nivel.text(b.get_x()+b.get_width()/2, v+0.15,
+                              f'{v:.2f}', ha='center', fontsize=9)
 
-        # Panel 3 — scatter por participante (solo si hay varios)
-        if has_multi:
-            ax = axes[2]
-            media_pp = self.df.groupby(self.id_col)['molestia'].mean()
-            df_c = self.df_part.set_index(self.id_col)[['molestia_ref_before']]\
-                       .join(media_pp).dropna()
-            df_c.columns = ['ref', 'exp']
+        # ── Panel 5 (fila 1, col 2): scatter ref media vs exp media ──────
+        ax_scatter = fig.add_subplot(gs[1, 2])
+        media_pp     = self.df.groupby(self.id_col)['molestia'].mean()
+        media_ref_pp = self.df_part.set_index(self.id_col)[self.ref_cols]\
+                           .mean(axis=1)
+        df_c = media_ref_pp.to_frame('ref').join(media_pp).dropna()
+        df_c.columns = ['ref', 'exp']
+        ax_scatter.scatter(df_c['ref'], df_c['exp'],
+                           color=COLOR_EXP, s=80, zorder=3)
+        ax_scatter.plot([0,10],[0,10],'k--', linewidth=1, alpha=0.4, label='y=x')
+        if len(df_c) >= 3 and df_c['ref'].nunique() > 1:
+            m, b, r, p, _ = scipy_stats.linregress(df_c['ref'], df_c['exp'])
+            xs = np.linspace(df_c['ref'].min(), df_c['ref'].max(), 50)
+            ax_scatter.plot(xs, m*xs+b, color='red', linewidth=1.5,
+                            label=f'r={r:.2f}, p={p:.3f}')
+        ax_scatter.set_xlim(0, 10)
+        ax_scatter.set_ylim(0, 10)
+        ax_scatter.set_xlabel('Molestia ref. media (por participante)')
+        ax_scatter.set_ylabel('Molestia media experimento')
+        ax_scatter.set_title('Correlacion ref. vs experimento\n(por participante)',
+                              fontsize=10)
+        ax_scatter.legend(fontsize=8)
+        ax_scatter.grid(alpha=0.3)
 
-            ax.scatter(df_c['ref'], df_c['exp'],
-                       color=COLOR_EXP, s=80, zorder=3)
-            ax.plot([0,10], [0,10], 'k--', linewidth=1, alpha=0.4, label='y = x')
-            if len(df_c) >= 3 and df_c['ref'].nunique() > 1:
-                m, b, r, p, _ = scipy_stats.linregress(df_c['ref'], df_c['exp'])
-                xs = np.linspace(df_c['ref'].min(), df_c['ref'].max(), 50)
-                ax.plot(xs, m*xs + b, color='red', linewidth=1.5,
-                        label=f'Regresión (r={r:.2f}, p={p:.3f})')
-            ax.set_xlim(0, 10)
-            ax.set_ylim(0, 10)
-            ax.set_xlabel('Molestia referencia (por participante)')
-            ax.set_ylabel('Molestia media experimento')
-            ax.set_title('Correlación ref. vs experimento')
-            ax.legend(fontsize=8)
-            ax.grid(alpha=0.3)
-
-        fig.suptitle('Comparación: audio de referencia vs. experimento', fontsize=12)
-        plt.tight_layout()
+        fig.suptitle('Comparacion: audios de referencia vs. experimento', fontsize=13)
         self._save(fig, 'comparacion_referencia.png')
 
     def grafico_heatmap(self):

@@ -174,50 +174,67 @@
     <div class="wrapper" id="screen-ref-molestia" style="display: none;">
         <table>
             <caption>
-                <h2>Audio de Referencia - Molestia</h2>
+                <h2>Evaluación de Audios de Referencia</h2>
             </caption>
             <tbody>
                 <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <div>
-                            <h3>Audio de referencia de molestia:</h3>
-                            <audio id="audio_ref_molestia" controls style="width: 200px;">
-                                <source id="audio_ref_molestia_source" src="" type="audio/wav">
-                            </audio>
-                            <p><small>(Pendiente de determinar)</small></p>
-                        </div>
-                        <div id="molestia_ref_container" style="margin-top: 20px;">
-                            <h3>6.a. ¿Cuánto le molesta o perturba este audio de referencia?</h3>
-                            <div style="text-align: center; margin: 10px auto;">
-                                <table style="margin: 0 auto;">
-                                    <tr>
-                                        <td><input type="radio" name="molestia_ref_before" value="0"> 0</td>
-                                        <td><input type="radio" name="molestia_ref_before" value="1"> 1</td>
-                                        <td><input type="radio" name="molestia_ref_before" value="2"> 2</td>
-                                        <td><input type="radio" name="molestia_ref_before" value="3"> 3</td>
-                                        <td><input type="radio" name="molestia_ref_before" value="4"> 4</td>
-                                        <td><input type="radio" name="molestia_ref_before" value="5"> 5</td>
-                                        <td><input type="radio" name="molestia_ref_before" value="6"> 6</td>
-                                        <td><input type="radio" name="molestia_ref_before" value="7"> 7</td>
-                                        <td><input type="radio" name="molestia_ref_before" value="8"> 8</td>
-                                        <td><input type="radio" name="molestia_ref_before" value="9"> 9</td>
-                                        <td><input type="radio" name="molestia_ref_before" value="10"> 10</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="11" style="text-align: center; font-size: 0.8em;">
-                                            0 = No me molesta en absoluto | 10 = Extremadamente molesto
-                                        </td>
-                                    </tr>
-                                </table>
+                    <td style="text-align: center; padding: 10px 0;">
+                        <p style="margin: 0; font-size: 0.95em; color: #ccc;">
+                            Escuche cada audio y evalúe su grado de molestia antes de continuar.
+                        </p>
+                        <!-- Barra de progreso -->
+                        <div style="margin: 14px auto; width: 320px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8em; margin-bottom: 4px;">
+                                <span>Audio <span id="ref-counter">1</span> de 9</span>
+                                <span id="ref-progress-pct">11%</span>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.15); border-radius: 6px; height: 8px; overflow: hidden;">
+                                <div id="ref-progress-bar"
+                                     style="height: 100%; width: 11%; background: #3498db; border-radius: 6px;
+                                            transition: width 0.3s ease;"></div>
                             </div>
                         </div>
-
                     </td>
                 </tr>
                 <tr>
-                    <th>
+                    <td style="text-align: center; padding: 10px 0;">
+                        <!-- Reproductor -->
+                        <audio id="audio_ref_molestia" controls style="width: 260px;">
+                            <source id="audio_ref_molestia_source" src="" type="audio/wav">
+                        </audio>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; padding: 10px 0;">
+                        <h3 style="margin-bottom: 12px;">
+                            ¿Cuánto le molesta o perturba este audio?
+                        </h3>
+                        <table style="margin: 0 auto;">
+                            <tr>
+                                <td><input type="radio" name="molestia_ref_current" value="0"> 0</td>
+                                <td><input type="radio" name="molestia_ref_current" value="1"> 1</td>
+                                <td><input type="radio" name="molestia_ref_current" value="2"> 2</td>
+                                <td><input type="radio" name="molestia_ref_current" value="3"> 3</td>
+                                <td><input type="radio" name="molestia_ref_current" value="4"> 4</td>
+                                <td><input type="radio" name="molestia_ref_current" value="5"> 5</td>
+                                <td><input type="radio" name="molestia_ref_current" value="6"> 6</td>
+                                <td><input type="radio" name="molestia_ref_current" value="7"> 7</td>
+                                <td><input type="radio" name="molestia_ref_current" value="8"> 8</td>
+                                <td><input type="radio" name="molestia_ref_current" value="9"> 9</td>
+                                <td><input type="radio" name="molestia_ref_current" value="10"> 10</td>
+                            </tr>
+                            <tr>
+                                <td colspan="11" style="text-align: center; font-size: 0.8em; padding-top: 6px;">
+                                    0 = No me molesta en absoluto &nbsp;|&nbsp; 10 = Extremadamente molesto
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-top: 16px;">
                         <div id="wrapper_next">
-                            <button id="button_next" onclick="proceedToAudioQuiz()">Comenzar Cuestionario</button>
+                            <button id="button_next" onclick="nextRefAudio()">Siguiente</button>
                         </div>
                     </th>
                 </tr>
