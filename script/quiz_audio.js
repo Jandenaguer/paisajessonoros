@@ -1,10 +1,9 @@
 // ── Audios de referencia (evaluación de molestia previa) ──────────────────────
 const refAudioFiles = [
-    'ref_28.wav', 'ref_32.wav', 'ref_36.wav', 'ref_40.wav', 'ref_44.wav',
-    'ref_48.wav', 'ref_52.wav', 'ref_56.wav', 'ref_60.wav'
+    'ref_28.wav', 'ref_36.wav', 'ref_44.wav', 'ref_52.wav', 'ref_60.wav'
 ];
 let currentRefIndex = 0;
-const refResponses = [];   // [{file, value}, …]  — 9 entradas al finalizar
+const refResponses = [];   // [{file, value}, …]  — 5 entradas al finalizar
 
 // Carga el audio de referencia indicado por currentRefIndex
 function loadRefAudio(index) {
