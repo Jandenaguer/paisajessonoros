@@ -106,28 +106,14 @@ function loadAudio(index) {
     const audio = document.getElementById('main-audio');
     const source = document.getElementById('audio-source');
     const title = document.getElementById('audio-title');
-    const info = document.getElementById('audio-info');
     const counter = document.getElementById('audio-counter');
-    
+
     const audioData = parseAudioFilename(audioFiles[index]);
-    
+
     source.src = `./resources/audios/${audioFiles[index]}`;
     audio.load();
-    
-    const nivelTexto = {
-        'equal': 'Nivel igual',
-        'low': 'Nivel bajo (-8 dB)',
-        'high': 'Nivel alto (+8 dB)'
-    };
-    
-    const ruidoTexto = {
-        'road': 'Tráfico',
-        'voices': 'Voces',
-        'nature': 'Naturaleza'
-    };
-    
+
     title.textContent = `Mensaje de Evacuación ${audioData.mensaje.replace('mensaje', '')}`;
-    info.textContent = `Ruido: ${ruidoTexto[audioData.ruido]} | ${nivelTexto[audioData.nivel]}`;
     counter.textContent = index + 1;
     
     resetAudioQuestions();

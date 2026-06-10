@@ -47,15 +47,29 @@ async function getHandle(key) {
 
 // Configurar carpeta CSV (FS API) - debe ejecutarse por usuario
 window.setupCsvDirectory = async function() {
+  const statusEl = document.getElementById('setup_csv_status');
+  const setStatus = (msg, color) => {
+    if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color; }
+  };
+
+  // La File System Access API solo existe en navegadores Chromium de escritorio
+  // (Chrome, Edge, Opera). Firefox, Safari y los navegadores móviles no la soportan.
+  if (typeof window.showDirectoryPicker !== 'function') {
+    setStatus('Su navegador no permite elegir carpeta (use Chrome o Edge en ordenador). El CSV se descargará automáticamente al finalizar.', '#f39c12');
+    return;
+  }
+
   try {
     const dirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
-    dirHandle && await putHandle(DIR_KEY, dirHandle);
+    if (!dirHandle) return;
+    await putHandle(DIR_KEY, dirHandle);
     window._dirHandle = dirHandle;
-    if (document.getElementById('setup_csv_status')) {
-      document.getElementById('setup_csv_status').textContent = 'Carpeta CSV configurada';
-    }
+    setStatus('Carpeta CSV configurada', '#2ecc71');
   } catch (e) {
+    // El usuario cerró el selector sin elegir carpeta: no es un error real
+    if (e && e.name === 'AbortError') return;
     console.error('Error configurando carpeta CSV', e);
+    setStatus('No se pudo configurar la carpeta. El CSV se descargará al finalizar.', '#f39c12');
   }
 };
 
