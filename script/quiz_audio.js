@@ -238,8 +238,9 @@ function initializeQuiz() {
 }
 
 async function saveToCSV() {
-  // Columnas de referencia dinámicas: ref_28, ref_32, … ref_60
-  const refHeaders = refAudioFiles.map(f => 'ref_' + f.replace('.wav',''));
+  // Columnas de referencia dinámicas: ref_28, ref_36, … ref_60
+  // (el nombre de archivo ya empieza por "ref_", solo se quita la extensión)
+  const refHeaders = refAudioFiles.map(f => f.replace('.wav',''));
 
   const headers = [
     'participante_id','timestamp_inicio','timestamp_respuesta','timestamp_fin',
@@ -255,10 +256,8 @@ async function saveToCSV() {
 
   // Intentar leer CSV existente desde la carpeta configurada (FS API)
   let base = '';
-  let hasDirHandle = false;
   try {
     base = await readCsvFromDir();
-    if (base && base.trim() !== '') hasDirHandle = true;
   } catch (e) { base = ''; }
 
   // Si no hay contenido previo, empezar con la cabecera
@@ -318,19 +317,18 @@ async function saveToCSV() {
   window._loadedCsvContent = finalContent;
 
   // Intentar guardar en la carpeta configurada (FS API)
-  if (window._dirHandle && typeof writeCsvToDir === 'function') {
-    try {
-      await writeCsvToDir(finalContent);
+  if (window._dirHandle) {
+    const saved = await writeCsvToDir(finalContent);
+    if (saved) {
       console.log('CSV guardado en carpeta configurada.');
-      return true; // guardado en directorio
-    } catch (e) {
-      console.warn('No se pudo escribir en directorio, descargando como fallback:', e);
+      return true;
     }
+    console.warn('writeCsvToDir falló, descargando como fallback.');
   }
 
   // Fallback: descarga directa como archivo
   downloadCsvBlob(finalContent);
-  return false; // descarga directa
+  return false;
 }
 
 function downloadCsvBlob(content) {
