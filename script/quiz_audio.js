@@ -1,6 +1,6 @@
 // ── Audios de referencia (evaluación de molestia previa) ──────────────────────
 const refAudioFiles = [
-    'ref_28.wav', 'ref_36.wav', 'ref_44.wav', 'ref_52.wav', 'ref_60.wav'
+    'ref_52.wav', 'ref_56.wav', 'ref_60.wav', 'ref_64.wav', 'ref_68.wav'
 ];
 let currentRefIndex = 0;
 const refResponses = [];   // [{file, value}, …]  — 5 entradas al finalizar
@@ -73,6 +73,15 @@ let allResponses = [];
 let quizCompleteTimestamp = '';
 // Persisted CSV content if user imports an existing file to append to
 window._loadedCsvContent = null;
+
+// En modo escritorio (Electron) los resultados se envían por correo, así que
+// el bloque opcional de "Configurar carpeta CSV" no tiene utilidad: se oculta.
+window.addEventListener('DOMContentLoaded', () => {
+  if (window.electronAPI) {
+    const blk = document.getElementById('data-save-block');
+    if (blk) blk.style.display = 'none';
+  }
+});
 
 function initializeQuiz() {
     currentAudioIndex = 0;
@@ -197,13 +206,41 @@ function submitAudioResponse() {
 
 async function completeQuiz() {
     quizCompleteTimestamp = new Date().toISOString();
-    const savedToDir = await saveToCSV();
-    
+
     document.getElementById('screen-audio').style.display = 'none';
     document.getElementById('screen-summary').style.display = 'flex';
-
-    // Mostrar estado de guardado en la pantalla de resumen
     const statusEl = document.getElementById('csv-save-status');
+
+    // Modo escritorio (Electron): enviar los resultados por correo
+    if (window.electronAPI && typeof window.electronAPI.sendResults === 'function') {
+        const csv = buildStandaloneCsv();
+        window._loadedCsvContent = csv;
+        const ts = new Date().toISOString().replace(/[:.]/g, '-');
+        const filename = `paisajes_sonoros_${ts}.csv`;
+
+        if (statusEl) {
+            statusEl.textContent = 'Enviando respuestas por correo...';
+            statusEl.style.color = '#f39c12';
+        }
+        try {
+            const res = await window.electronAPI.sendResults(csv, filename);
+            if (!res || !res.ok) throw new Error(res && res.error ? res.error : 'desconocido');
+            if (statusEl) {
+                statusEl.textContent = 'Respuestas enviadas por correo correctamente.';
+                statusEl.style.color = '#2ecc71';
+            }
+        } catch (e) {
+            if (statusEl) {
+                statusEl.textContent = 'No se pudo enviar el correo (' + e.message +
+                    '). Pulse "Descargar CSV manualmente" para no perder los datos.';
+                statusEl.style.color = '#e74c3c';
+            }
+        }
+        return;
+    }
+
+    // Modo web: comportamiento existente (carpeta FS API o descarga)
+    const savedToDir = await saveToCSV();
     if (statusEl) {
         if (savedToDir) {
             statusEl.textContent = 'Datos guardados en el archivo CSV de la carpeta configurada.';
@@ -237,12 +274,12 @@ function initializeQuiz() {
     loadAudio(currentAudioIndex);
 }
 
-async function saveToCSV() {
-  // Columnas de referencia dinámicas: ref_28, ref_36, … ref_60
-  // (el nombre de archivo ya empieza por "ref_", solo se quita la extensión)
-  const refHeaders = refAudioFiles.map(f => f.replace('.wav',''));
-
-  const headers = [
+// ── Construcción del CSV ──────────────────────────────────────────────────────
+// Cabecera (columnas ref_* dinámicas a partir de refAudioFiles)
+function csvHeaders() {
+  // El nombre de archivo ya empieza por "ref_", solo se quita la extensión
+  const refHeaders = refAudioFiles.map(f => f.replace('.wav', ''));
+  return [
     'participante_id','timestamp_inicio','timestamp_respuesta','timestamp_fin',
     'edad','genero','estudios','audicion','castellano',
     'audio_index','audio_filename','mensaje','ruido','nivel',
@@ -253,38 +290,20 @@ async function saveToCSV() {
     'afectiva_sinactividad','afectiva_calmado','afectiva_molesto',
     'afectiva_conactividad','afectiva_monotono'
   ];
+}
 
-  // Intentar leer CSV existente desde la carpeta configurada (FS API)
-  let base = '';
-  try {
-    base = await readCsvFromDir();
-  } catch (e) { base = ''; }
-
-  // Si no hay contenido previo, empezar con la cabecera
-  if (!base || base.trim() === '') base = headers.join(',') + '\n';
-
-  // Calcular el siguiente participante_id
-  let nextId = 1;
-  const lines = base.trim().split('\n');
-  if (lines.length > 1) {
-    const last = lines[lines.length - 1];
-    const firstCell = last.split(',')[0];
-    const lastId = Number(firstCell);
-    if (!isNaN(lastId)) nextId = lastId + 1;
-  }
-
-  // Valores de referencia (uno por archivo, en orden)
+// Filas de este participante, numerando participante_id desde startId
+function csvRows(startId) {
   const refVals = refAudioFiles.map((f, i) =>
     (window._refResponses && window._refResponses[i])
       ? window._refResponses[i].value
       : ''
   );
-
-  // Construir las filas de este participante
-  let newRows = '';
+  let id = startId;
+  let rows = '';
   for (let response of allResponses) {
     const row = [
-      nextId++,
+      id++,
       demographicData.timestamp_inicio,
       response.timestamp_respuesta,
       quizCompleteTimestamp,
@@ -310,10 +329,40 @@ async function saveToCSV() {
       response.afectiva_conactividad,
       response.afectiva_monotono
     ];
-    newRows += row.join(',') + '\n';
+    rows += row.join(',') + '\n';
+  }
+  return rows;
+}
+
+// CSV autónomo (cabecera + filas del participante) — usado en modo Electron/correo
+function buildStandaloneCsv() {
+  return csvHeaders().join(',') + '\n' + csvRows(1).trimEnd();
+}
+
+// Modo web: guardar en carpeta configurada (FS API) o descargar como fallback
+async function saveToCSV() {
+  const headers = csvHeaders();
+
+  // Intentar leer CSV existente desde la carpeta configurada (FS API)
+  let base = '';
+  try {
+    base = await readCsvFromDir();
+  } catch (e) { base = ''; }
+
+  // Si no hay contenido previo, empezar con la cabecera
+  if (!base || base.trim() === '') base = headers.join(',') + '\n';
+
+  // Calcular el siguiente participante_id a partir de la última fila
+  let nextId = 1;
+  const lines = base.trim().split('\n');
+  if (lines.length > 1) {
+    const last = lines[lines.length - 1];
+    const firstCell = last.split(',')[0];
+    const lastId = Number(firstCell);
+    if (!isNaN(lastId)) nextId = lastId + 1;
   }
 
-  const finalContent = base.trimEnd() + '\n' + newRows.trimEnd();
+  const finalContent = base.trimEnd() + '\n' + csvRows(nextId).trimEnd();
   window._loadedCsvContent = finalContent;
 
   // Intentar guardar en la carpeta configurada (FS API)

@@ -1,0 +1,47 @@
+{
+  "name": "paisajes-sonoros-desktop",
+  "version": "1.0.0",
+  "description": "Cuestionario de Paisajes Sonoros (Electron) con envio de resultados por correo",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "Mario Hiniesto (URJC)",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron/packager": "^20.0.1",
+    "electron": "^31.3.1",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "nodemailer": "^9.0.0"
+  },
+  "build": {
+    "appId": "com.urjc.paisajessonoros",
+    "productName": "Paisajes Sonoros",
+    "asar": true,
+    "asarUnpack": [
+      "resources/**"
+    ],
+    "files": [
+      "audio_quiz.html",
+      "index.html",
+      "electron/**",
+      "script/**",
+      "styles/**",
+      "resources/**"
+    ],
+    "extraResources": [
+      {
+        "from": "email_config.json",
+        "to": "email_config.json"
+      }
+    ],
+    "win": {
+      "target": "dir",
+      "icon": "styles/images/app_icon.ico"
+    }
+  }
+}

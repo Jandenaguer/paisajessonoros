@@ -1,0 +1,9 @@
+# Credenciales de correo (NUNCA subir a un repo publico)
+email_config.json
+
+# Dependencias de Node / Electron
+node_modules/
+
+# Builds de Electron
+dist/
+out/
