@@ -7,3 +7,10 @@ node_modules/
 # Builds de Electron
 dist/
 out/
+
+# Python / temporales
+__pycache__/
+*.pyc
+*.bak
+CSV/resultados/*.N20.*
+CSV/resultados/informe_N20.txt
